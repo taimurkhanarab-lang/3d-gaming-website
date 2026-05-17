@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimmyCenter 🎮 - Kids Gaming Paradise!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #0a0a2e;
+    --neon-pink: #ff2d78;
+    --neon-cyan: #00f5ff;
+    --neon-yellow: #ffe600;
+    --neon-green: #39ff14;
+    --neon-purple: #bf00ff;
+    --neon-orange: #ff6600;
+    --card-bg: rgba(255,255,255,0.05);
+    --glow-pink: 0 0 20px #ff2d78, 0 0 40px #ff2d7888;
+    --glow-cyan: 0 0 20px #00f5ff, 0 0 40px #00f5ff88;
+    --glow-yellow: 0 0 20px #ffe600, 0 0 40px #ffe60088;
+    --glow-green: 0 0 20px #39ff14, 0 0 40px #39ff1488;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--sky);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    width: 28px; height: 28px;
+    border: 3px solid var(--neon-cyan);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    box-shadow: var(--glow-cyan);
+    mix-blend-mode: screen;
+  }
+  #cursor.hovered {
+    width: 50px; height: 50px;
+    background: rgba(0,245,255,0.2);
+  }
+  #cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ===== STARFIELD BG ===== */
+  #starfield {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle linear infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* ===== FLOATING SHAPES ===== */
+  .float-shape {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    pointer-events: none;
+    animation: floatAround 20s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes floatAround {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(40px, -60px) scale(1.1); }
+    50% { transform: translate(-30px, 40px) scale(0.9); }
+    75% { transform: translate(60px, 20px) scale(1.05); }
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,46,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,245,255,0.15);
+  }
+  .logo {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200%;
+    animation: logoShift 3s linear infinite;
+    text-shadow: none;
+    letter-spacing: 1px;
+  }
+  @keyframes logoShift {
+    0% { background-position: 0%; }
+    100% { background-position: 200%; }
+  }
+  .logo span { font-size: 1.5rem; }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--neon-cyan); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-btn {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: var(--glow-pink);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-btn:hover { transform: scale(1.08); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    text-align: center;
+    padding: 120px 20px 60px;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    box-shadow: var(--glow-cyan);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.7;transform:scale(1.03);} }
+
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 1;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .hero h1 .line1 {
+    display: block;
+    color: white;
+    text-shadow: 0 0 40px rgba(255,255,255,0.3);
+    animation: slideInDown 0.8s ease both;
+  }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200%;
+    animation: slideInDown 0.8s 0.2s ease both, rainbowText 3s linear infinite;
+    filter: drop-shadow(0 0 20px var(--neon-pink));
+  }
+  @keyframes rainbowText { 0%{background-position:0%} 100%{background-position:200%} }
+  @keyframes slideInDown { from{opacity:0;transform:translateY(-40px)} to{opacity:1;transform:translateY(0)} }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(255,255,255,0.65);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.7s ease both; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    color: white;
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    box-shadow: var(--glow-pink);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: scale(1.07) translateY(-3px); box-shadow: 0 0 40px #ff2d78; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--neon-cyan);
+    text-decoration: none;
+    padding: 14px 38px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    border: 2px solid var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+    transition: transform 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { transform: scale(1.07) translateY(-3px); background: rgba(0,245,255,0.1); }
+
+  /* ===== 3D FLOATING ICONS ===== */
+  .floating-icons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ficon {
+    position: absolute;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    animation: iconFloat linear infinite;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.5));
+    transform-style: preserve-3d;
+  }
+  @keyframes iconFloat {
+    0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+    10% { opacity: 0.85; }
+    90% { opacity: 0.85; }
+    100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
+  }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 30px 40px;
+    display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat-label { color: rgba(255,255,255,0.5); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ===== SECTION STYLES ===== */
+  section { position: relative; z-index: 1; padding: 80px 40px; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: white;
+    line-height: 1.1;
+  }
+  .section-title span {
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== GAME CATEGORIES ===== */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .cat-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--cat-color);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 20px;
+  }
+  .cat-card:hover { transform: translateY(-8px) scale(1.04); border-color: var(--cat-color-raw); box-shadow: 0 20px 50px var(--cat-color); }
+  .cat-card:hover::before { opacity: 0.1; }
+  .cat-icon { font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.3s; }
+  .cat-card:hover .cat-icon { transform: scale(1.2) rotate(10deg); }
+  .cat-name { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: white; }
+  .cat-count { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+  /* ===== FEATURED GAMES ===== */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .game-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.4s;
+    position: relative;
+  }
+  .game-card:hover { transform: translateY(-12px) rotateX(4deg) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+  .game-thumb {
+    width: 100%; aspect-ratio: 16/10;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--game-grad);
+    opacity: 0.9;
+  }
+  .game-thumb-icon {
+    position: relative; z-index: 1;
+    animation: bounceIcon 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+  }
+  @keyframes bounceIcon { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-10px) scale(1.1)} }
+  .game-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--neon-yellow);
+    color: #1a1a00;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    z-index: 2;
+    box-shadow: var(--glow-yellow);
+    letter-spacing: 1px;
+  }
+  .game-info { padding: 20px; }
+  .game-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .game-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 14px; }
+  .game-meta { display: flex; align-items: center; justify-content: space-between; }
+  .game-rating { color: var(--neon-yellow); font-size: 0.9rem; font-weight: 700; }
+  .game-age {
+    background: rgba(255,255,255,0.07);
+    border-radius: 50px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 700;
+  }
+  .play-btn {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(255,45,120,0.3);
+    letter-spacing: 1px;
+  }
+  .play-btn:hover { transform: scale(1.04); box-shadow: var(--glow-pink); }
+
+  /* ===== MARQUEE STRIP ===== */
+  .marquee-strip {
+    position: relative; z-index: 1;
+    padding: 20px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.02);
+    margin: 20px 0;
+  }
+  .marquee-track {
+    display: flex; gap: 40px;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .marquee-item {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.3);
+    white-space: nowrap;
+    letter-spacing: 2px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .marquee-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--neon-pink); }
+
+  /* ===== FEATURE SECTION ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .feature-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 24px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--feature-grad);
+    border-radius: 24px 24px 0 0;
+  }
+  .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+  .feature-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 10px;
+  }
+  .feature-desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; line-height: 1.7; }
+
+  /* ===== TOP PICKS SLIDER ===== */
+  .slider-wrap { overflow: hidden; position: relative; }
+  .slider-track {
+    display: flex;
+    gap: 20px;
+    animation: slideTrack 30s linear infinite;
+    width: max-content;
+  }
+  @keyframes slideTrack { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .mini-card {
+    width: 200px; flex-shrink: 0;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .mini-card:hover { transform: scale(1.07) translateY(-5px); }
+  .mini-icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .mini-title { font-family: 'Fredoka One', cursive; color: white; font-size: 0.95rem; }
+  .mini-genre { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+  /* ===== CTA SECTION ===== */
+  .cta-section {
+    text-align: center;
+    padding: 100px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,45,120,0.15), transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cta-title em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--neon-yellow), var(--neon-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cta-sub { color: rgba(255,255,255,0.55); font-size: 1.1rem; margin-bottom: 40px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative; z-index: 1;
+    background: rgba(0,0,0,0.4);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 50px 40px 30px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .footer-links { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
+  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--neon-cyan); }
+  .footer-copy { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+  .footer-emojis { font-size: 1.5rem; letter-spacing: 8px; margin-bottom: 16px; }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== PARTICLES ===== */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    animation: particleDrift linear infinite;
+  }
+  @keyframes particleDrift {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10px) translateX(var(--drift)); opacity: 0; }
+  }
+
+  /* ===== 3D TILT ===== */
+  .tilt-target { transform-style: preserve-3d; transition: transform 0.1s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .stats-bar { gap: 40px; padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<!-- Starfield -->
+<div id="starfield"></div>
+
+<!-- Floating bg shapes -->
+<div class="float-shape" style="width:700px;height:700px;background:var(--neon-purple);top:-200px;left:-200px;animation-duration:25s;"></div>
+<div class="float-shape" style="width:500px;height:500px;background:var(--neon-pink);bottom:-100px;right:-100px;animation-duration:18s;animation-delay:-8s;"></div>
+<div class="float-shape" style="width:400px;height:400px;background:var(--neon-cyan);top:40%;left:50%;animation-duration:22s;animation-delay:-12s;"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Navbar -->
+<nav>
+  <div class="logo">🎮 TimmyCenter</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Parents</a>
+    <a href="#">About</a>
+  </div>
+  <button class="nav-btn">🚀 Play Now!</button>
+</nav>
+
+<!-- Floating Icons -->
+<div class="floating-icons" id="floatingIcons"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✨ 500+ Games for Kids ✨</div>
+  <h1>
+    <span class="line1">Welcome to</span>
+    <span class="line2">TimmyCenter!</span>
+  </h1>
+  <p class="hero-sub">The most exciting gaming paradise for kids! Explore hundreds of fun, safe, and amazing games that will spark your imagination and keep you entertained for hours! 🌟</p>
+  <div class="hero-btns">
+    <a href="#" class="btn-primary">🎮 Start Playing!</a>
+    <a href="#" class="btn-secondary">🗺️ Explore Games</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar reveal">
+  <div class="stat">
+    <div class="stat-num" id="stat1">0</div>
+    <div class="stat-label">Fun Games</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat2">0</div>
+    <div class="stat-label">Happy Kids</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat3">0</div>
+    <div class="stat-label">Game Categories</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" id="stat4">0</div>
+    <div class="stat-label">Stars Earned</div>
+  </div>
+</div>
+
+<!-- Marquee Strip -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="section-header reveal">
+    <div class="section-tag">🗂️ Browse by Type</div>
+    <h2 class="section-title">All Your Favourite <span>Game Categories</span></h2>
+  </div>
+  <div class="categories-grid reveal" id="categoriesGrid"></div>
+</section>
+
+<!-- FEATURED GAMES -->
+<section id="games">
+  <div class="section-header reveal">
+    <div class="section-tag">⭐ Staff Picks</div>
+    <h2 class="section-title">Featured <span>Games</span> This Week</h2>
+  </div>
+  <div class="games-grid" id="gamesGrid"></div>
+</section>
+
+<!-- MINI SLIDER -->
+<section style="padding: 40px 0;">
+  <div class="section-header reveal">
+    <div class="section-tag">🔥 Trending Now</div>
+    <h2 class="section-title">Hot <span>Right Now</span></h2>
+  </div>
+  <div class="slider-wrap">
+    <div class="slider-track" id="sliderTrack"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-header reveal">
+    <div class="section-tag">💎 Why Kids Love Us</div>
+    <h2 class="section-title">What Makes <span>TimmyCenter</span> Special</h2>
+  </div>
+  <div class="features-grid" id="featuresGrid"></div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title">Ready for the <em>Ultimate</em><br>Gaming Adventure?</h2>
+  <p class="cta-sub">Join millions of kids already having the time of their lives at TimmyCenter!</p>
+  <a href="#" class="btn-primary" style="font-size:1.4rem;padding:20px 60px;">🎉 Let's Play!</a>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">🎮 TimmyCenter</div>
+  <div class="footer-emojis">🚀🌈⭐🎯🏆🎪🎠</div>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Games</a>
+    <a href="#">Safety</a>
+    <a href="#">Parents</a>
+    <a href="#">Privacy</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 TimmyCenter · Safe gaming for every kid 🌟 Made with ❤️ for little adventurers</div>
+</footer>
+
+<script>
+// ========== CURSOR ==========
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursor-dot');
+let mx=0, my=0, cx=0, cy=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursorDot.style.left=mx+'px'; cursorDot.style.top=my+'px'; });
+document.querySelectorAll('a, button, .game-card, .cat-card, .mini-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+function animateCursor() {
+  cx += (mx - cx) * 0.12; cy += (my - cy) * 0.12;
+  cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// ========== STARFIELD ==========
+const sf = document.getElementById('starfield');
+for (let i = 0; i < 180; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 3 + 0.5;
+  star.style.cssText = `
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    width:${size}px;height:${size}px;
+    animation-duration:${Math.random()*4+2}s;
+    animation-delay:${Math.random()*5}s;
+    opacity:${Math.random()*0.8};
+  `;
+  sf.appendChild(star);
+}
+
+// ========== FLOATING ICONS ==========
+const gameEmojis = ['🎮','🕹️','🎯','🏆','⭐','🎲','🎪','🌈','🚀','💎','🎠','🎡','🎢','🦄','🐉','🤖','👾','🎃','🌟','🔥','💫','🎈','🎉','🎊','🍭','🍬','🌊','⚡','🎸','🏅'];
+const fi = document.getElementById('floatingIcons');
+for (let i = 0; i < 25; i++) {
+  const icon = document.createElement('div');
+  icon.className = 'ficon';
+  const x = Math.random() * 100;
+  const dur = Math.random() * 15 + 10;
+  const delay = Math.random() * 20;
+  const emoji = gameEmojis[Math.floor(Math.random() * gameEmojis.length)];
+  icon.style.cssText = `left:${x}%;animation-duration:${dur}s;animation-delay:-${delay}s;`;
+  icon.textContent = emoji;
+  fi.appendChild(icon);
+}
+
+// ========== PARTICLES ==========
+const pc = document.getElementById('particles');
+const colors = ['#ff2d78','#00f5ff','#ffe600','#39ff14','#bf00ff','#ff6600'];
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const drift = (Math.random() - 0.5) * 200 + 'px';
+  p.style.cssText = `
+    left:${Math.random()*100}%;
+    background:${color};
+    box-shadow:0 0 8px ${color};
+    animation-duration:${Math.random()*12+8}s;
+    animation-delay:-${Math.random()*15}s;
+    --drift:${drift};
+    width:${Math.random()*4+2}px;height:${Math.random()*4+2}px;
+  `;
+  pc.appendChild(p);
+}
+
+// ========== MARQUEE ==========
+const marqueeItems = ['🎮 Adventure Games','🏃 Run & Jump','🧩 Puzzle Fun','🐾 Animal World','🚗 Racing Madness','🌊 Ocean Explorer','🚀 Space Mission','🏰 Castle Quest','🎨 Creative Studio','🔮 Magic Kingdom','🦸 Super Heroes','🌴 Jungle Safari'];
+const mt = document.getElementById('marqueeTrack');
+const marqueeContent = [...marqueeItems, ...marqueeItems].map(t => `<span class="marquee-item"><span class="dot"></span>${t}</span>`).join('');
+mt.innerHTML = marqueeContent;
+
+// ========== CATEGORIES ==========
+const categories = [
+  {icon:'🏃',name:'Action',count:'80+ Games',color:'#ff2d78',raw:'#ff2d78'},
+  {icon:'🧩',name:'Puzzle',count:'65+ Games',color:'#00f5ff',raw:'#00f5ff'},
+  {icon:'🚗',name:'Racing',count:'40+ Games',color:'#ffe600',raw:'#ffe600'},
+  {icon:'🌍',name:'Adventure',count:'90+ Games',color:'#39ff14',raw:'#39ff14'},
+  {icon:'🎨',name:'Creative',count:'55+ Games',color:'#bf00ff',raw:'#bf00ff'},
+  {icon:'⚽',name:'Sports',count:'35+ Games',color:'#ff6600',raw:'#ff6600'},
+  {icon:'🎵',name:'Music',count:'30+ Games',color:'#ff2d78',raw:'#ff2d78'},
+  {icon:'🔬',name:'Science',count:'25+ Games',color:'#00f5ff',raw:'#00f5ff'},
+  {icon:'🐾',name:'Animals',count:'45+ Games',color:'#ffe600',raw:'#ffe600'},
+  {icon:'🌌',name:'Space',count:'20+ Games',color:'#bf00ff',raw:'#bf00ff'},
+];
+const cg = document.getElementById('categoriesGrid');
+categories.forEach(c => {
+  const el = document.createElement('div');
+  el.className = 'cat-card tilt-target';
+  el.style.setProperty('--cat-color', `rgba(${hexToRgb(c.raw)},0.3)`);
+  el.style.setProperty('--cat-color-raw', c.raw);
+  el.innerHTML = `<span class="cat-icon">${c.icon}</span><div class="cat-name">${c.name}</div><div class="cat-count">${c.count}</div>`;
+  cg.appendChild(el);
+});
+
+// ========== FEATURED GAMES ==========
+const games = [
+  {icon:'🦕',title:'Dino Dash 3D',desc:'Run, jump and slide as a dino through wild prehistoric worlds!',badge:'HOT 🔥',rating:'⭐⭐⭐⭐⭐',age:'Ages 4+',grad:'linear-gradient(135deg,#ff6b6b,#ff2d78)'},
+  {icon:'🚀',title:'Galaxy Blaster',desc:'Defend your spaceship and blast through the cosmos in this epic adventure!',badge:'NEW ✨',rating:'⭐⭐⭐⭐⭐',age:'Ages 6+',grad:'linear-gradient(135deg,#6b00ff,#00f5ff)'},
+  {icon:'🏰',title:'Castle Kingdom',desc:'Build your dream castle, grow your kingdom, and make friends along the way!',badge:'TOP PICK',rating:'⭐⭐⭐⭐½',age:'Ages 5+',grad:'linear-gradient(135deg,#ff9500,#ffe600)'},
+  {icon:'🐠',title:'Ocean Buddies',desc:'Explore the deep blue sea with your fishy friends in this underwater world!',badge:'POPULAR',rating:'⭐⭐⭐⭐⭐',age:'Ages 3+',grad:'linear-gradient(135deg,#00b4d8,#39ff14)'},
+  {icon:'🤖',title:'Robot Rumble',desc:'Design your own robot and compete in the most exciting robot battles ever!',badge:'HOT 🔥',rating:'⭐⭐⭐⭐⭐',age:'Ages 7+',grad:'linear-gradient(135deg,#7b2d8b,#ff2d78)'},
+  {icon:'🌈',title:'Rainbow Racer',desc:'Race through magical rainbow lands and collect stars to unlock new worlds!',badge:'FUN!',rating:'⭐⭐⭐⭐½',age:'Ages 4+',grad:'linear-gradient(135deg,#ff6600,#ffe600)'},
+];
+const gg = document.getElementById('gamesGrid');
+games.forEach((g,i) => {
+  const el = document.createElement('div');
+  el.className = 'game-card tilt-target reveal';
+  el.style.animationDelay = (i * 0.1) + 's';
+  el.innerHTML = `
+    <div class="game-thumb" style="--game-grad:${g.grad}">
+      <span class="game-thumb-icon">${g.icon}</span>
+      <div class="game-badge">${g.badge}</div>
+    </div>
+    <div class="game-info">
+      <div class="game-title">${g.title}</div>
+      <div class="game-desc">${g.desc}</div>
+      <div class="game-meta">
+        <div class="game-rating">${g.rating}</div>
+        <div class="game-age">${g.age}</div>
+      </div>
+      <button class="play-btn">▶ Play Now!</button>
+    </div>
+  `;
+  gg.appendChild(el);
+});
+
+// ========== SLIDER ==========
+const trending = [
+  {icon:'🦊',title:'Fox Run',genre:'Platformer'},
+  {icon:'🧪',title:'Lab Escape',genre:'Puzzle'},
+  {icon:'🐉',title:'Dragon Wings',genre:'Adventure'},
+  {icon:'🏄',title:'Wave Surfer',genre:'Sports'},
+  {icon:'🎃',title:'Spooky Fun',genre:'Halloween'},
+  {icon:'🌺',title:'Garden Magic',genre:'Casual'},
+  {icon:'⚡',title:'Thunder Race',genre:'Racing'},
+  {icon:'🦁',title:'Lion King',genre:'Adventure'},
+  {icon:'🎸',title:'Rock Star',genre:'Music'},
+  {icon:'🏹',title:'Arrow Quest',genre:'Action'},
+];
+const st = document.getElementById('sliderTrack');
+const sliderContent = [...trending, ...trending].map(t => `
+  <div class="mini-card tilt-target">
+    <div class="mini-icon">${t.icon}</div>
+    <div class="mini-title">${t.title}</div>
+    <div class="mini-genre">${t.genre}</div>
+  </div>
+`).join('');
+st.innerHTML = sliderContent;
+
+// ========== FEATURES ==========
+const features = [
+  {icon:'🛡️',title:'100% Kid Safe',desc:'Every game is carefully reviewed to ensure a safe, positive experience for children of all ages.',grad:'linear-gradient(90deg,#00f5ff,#39ff14)'},
+  {icon:'🎓',title:'Learn While Playing',desc:'Our games are designed by educators to help kids develop creativity, logic, and problem-solving skills!',grad:'linear-gradient(90deg,#ffe600,#ff6600)'},
+  {icon:'🌍',title:'500+ Amazing Games',desc:'A huge collection of games across dozens of categories — there\'s always something new to discover!',grad:'linear-gradient(90deg,#ff2d78,#bf00ff)'},
+  {icon:'🏆',title:'Rewards & Trophies',desc:'Earn stars, unlock characters, and win trophies as you complete challenges and level up!',grad:'linear-gradient(90deg,#39ff14,#00f5ff)'},
+  {icon:'👨‍👩‍👧',title:'Parent Controls',desc:'Parents stay in charge with easy-to-use controls, screen time limits, and progress tracking tools.',grad:'linear-gradient(90deg,#bf00ff,#ff2d78)'},
+  {icon:'🔄',title:'New Games Weekly',desc:'Fresh games added every single week — so kids always have something exciting to look forward to!',grad:'linear-gradient(90deg,#ff6600,#ffe600)'},
+];
+const fg = document.getElementById('featuresGrid');
+features.forEach(f => {
+  const el = document.createElement('div');
+  el.className = 'feature-card reveal';
+  el.style.setProperty('--feature-grad', f.grad);
+  el.innerHTML = `<div class="feature-icon">${f.icon}</div><div class="feature-title">${f.title}</div><div class="feature-desc">${f.desc}</div>`;
+  fg.appendChild(el);
+});
+
+// ========== COUNTER ANIMATION ==========
+function animateCounter(el, target, suffix='') {
+  let start = 0;
+  const duration = 2000;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+// ========== SCROLL REVEAL ==========
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      if (entry.target.classList.contains('stats-bar')) {
+        animateCounter(document.getElementById('stat1'), 500, '+');
+        animateCounter(document.getElementById('stat2'), 2, 'M+');
+        animateCounter(document.getElementById('stat3'), 20, '+');
+        animateCounter(document.getElementById('stat4'), 50, 'M+');
+      }
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ========== 3D TILT ==========
+document.querySelectorAll('.tilt-target').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = (e.clientY - cy) / rect.height * 12;
+    const ry = (cx - e.clientX) / rect.width * 12;
+    card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${-ry}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ========== HELPER ==========
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `${r},${g},${b}`;
+}
+
+// ========== PLAY BUTTON BURST ==========
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('play-btn') || e.target.classList.contains('btn-primary') || e.target.classList.contains('nav-btn')) {
+    for (let i = 0; i < 14; i++) {
+      const burst = document.createElement('div');
+      burst.style.cssText = `
+        position:fixed;left:${e.clientX}px;top:${e.clientY}px;
+        width:10px;height:10px;border-radius:50%;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        pointer-events:none;z-index:9998;
+        animation:burstParticle 0.8s ease-out forwards;
+        --dx:${(Math.random()-0.5)*200}px;
+        --dy:${(Math.random()-0.5)*200}px;
+      `;
+      document.body.appendChild(burst);
+      setTimeout(() => burst.remove(), 800);
+    }
+  }
+});
+
+// Add burst keyframe
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes burstParticle {
+    0% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
