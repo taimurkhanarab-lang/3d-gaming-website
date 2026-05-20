@@ -6,701 +6,219 @@
 <title>TimmyCenter 🎮 - Kids Gaming Paradise!</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --sky: #0a0a2e;
-    --neon-pink: #ff2d78;
-    --neon-cyan: #00f5ff;
-    --neon-yellow: #ffe600;
-    --neon-green: #39ff14;
-    --neon-purple: #bf00ff;
-    --neon-orange: #ff6600;
-    --card-bg: rgba(255,255,255,0.05);
-    --glow-pink: 0 0 20px #ff2d78, 0 0 40px #ff2d7888;
-    --glow-cyan: 0 0 20px #00f5ff, 0 0 40px #00f5ff88;
-    --glow-yellow: 0 0 20px #ffe600, 0 0 40px #ffe60088;
-    --glow-green: 0 0 20px #39ff14, 0 0 40px #39ff1488;
-  }
+:root {
+  --sky: #0a0a2e;
+  --neon-pink: #ff2d78;
+  --neon-cyan: #00f5ff;
+  --neon-yellow: #ffe600;
+  --neon-green: #39ff14;
+  --neon-purple: #bf00ff;
+  --neon-orange: #ff6600;
+  --card-bg: rgba(255,255,255,0.05);
+  --glow-pink: 0 0 20px #ff2d78, 0 0 40px #ff2d7888;
+  --glow-cyan: 0 0 20px #00f5ff, 0 0 40px #00f5ff88;
+  --glow-yellow: 0 0 20px #ffe600, 0 0 40px #ffe60088;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--sky); font-family: 'Nunito', sans-serif; overflow-x: hidden; }
+#starfield { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; overflow:hidden; }
+.star { position:absolute; background:white; border-radius:50%; animation:twinkle linear infinite; }
+@keyframes twinkle { 0%,100%{opacity:0.1;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
+.float-shape { position:fixed; border-radius:50%; filter:blur(80px); opacity:0.1; pointer-events:none; animation:floatAround 20s ease-in-out infinite; z-index:0; }
+@keyframes floatAround { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(40px,-60px) scale(1.1)} 50%{transform:translate(-30px,40px) scale(0.9)} 75%{transform:translate(60px,20px) scale(1.05)} }
+nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:14px 40px; display:flex; align-items:center; justify-content:space-between; background:rgba(10,10,46,0.85); backdrop-filter:blur(20px); border-bottom:1px solid rgba(0,245,255,0.15); }
+.logo { font-family:'Fredoka One',cursive; font-size:1.8rem; background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink),var(--neon-yellow)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200%; animation:logoShift 3s linear infinite; }
+@keyframes logoShift { 0%{background-position:0%} 100%{background-position:200%} }
+.nav-links { display:flex; gap:24px; }
+.nav-links a { color:rgba(255,255,255,0.7); text-decoration:none; font-weight:700; font-size:0.9rem; letter-spacing:1px; text-transform:uppercase; transition:color 0.3s; }
+.nav-links a:hover { color:var(--neon-cyan); }
+.nav-btn { background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple)); color:white; border:none; padding:10px 22px; border-radius:50px; font-family:'Fredoka One',cursive; font-size:0.95rem; cursor:pointer; box-shadow:var(--glow-pink); transition:transform 0.2s; }
+.nav-btn:hover { transform:scale(1.08); }
+.hero { position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:120px 20px 60px; z-index:1; }
+.hero-badge { display:inline-block; background:rgba(0,245,255,0.1); border:1px solid var(--neon-cyan); color:var(--neon-cyan); padding:6px 20px; border-radius:50px; font-size:0.85rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; margin-bottom:24px; box-shadow:var(--glow-cyan); animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.03)} }
+.hero h1 { font-family:'Fredoka One',cursive; font-size:clamp(3rem,9vw,7rem); line-height:1; margin-bottom:16px; }
+.hero h1 .line1 { display:block; color:white; animation:slideInDown 0.8s ease both; }
+.hero h1 .line2 { display:block; background:linear-gradient(90deg,var(--neon-pink),var(--neon-yellow),var(--neon-green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-size:200%; animation:slideInDown 0.8s 0.2s ease both,rainbowText 3s linear infinite; filter:drop-shadow(0 0 20px var(--neon-pink)); }
+@keyframes rainbowText { 0%{background-position:0%} 100%{background-position:200%} }
+@keyframes slideInDown { from{opacity:0;transform:translateY(-40px)} to{opacity:1;transform:translateY(0)} }
+.hero-sub { font-size:clamp(1rem,2.5vw,1.25rem); color:rgba(255,255,255,0.65); max-width:580px; margin:0 auto 36px; line-height:1.7; animation:fadeUp 0.8s 0.5s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; animation:fadeUp 0.8s 0.7s ease both; }
+.btn-primary { background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple)); color:white; text-decoration:none; padding:15px 38px; border-radius:50px; font-family:'Fredoka One',cursive; font-size:1.15rem; box-shadow:var(--glow-pink); transition:transform 0.2s; display:inline-block; border:none; cursor:pointer; }
+.btn-primary:hover { transform:scale(1.07) translateY(-3px); }
+.btn-secondary { background:transparent; color:var(--neon-cyan); text-decoration:none; padding:13px 36px; border-radius:50px; font-family:'Fredoka One',cursive; font-size:1.15rem; border:2px solid var(--neon-cyan); box-shadow:var(--glow-cyan); transition:transform 0.2s,background 0.2s; display:inline-block; cursor:pointer; }
+.btn-secondary:hover { transform:scale(1.07) translateY(-3px); background:rgba(0,245,255,0.1); }
+.stats-bar { position:relative; z-index:1; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.06); padding:28px 40px; display:flex; justify-content:center; gap:70px; flex-wrap:wrap; }
+.stat { text-align:center; }
+.stat-num { font-family:'Fredoka One',cursive; font-size:2.4rem; background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.stat-label { color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; }
+section { position:relative; z-index:1; padding:70px 40px; }
+.section-header { text-align:center; margin-bottom:50px; }
+.section-tag { display:inline-block; font-size:0.75rem; font-weight:800; letter-spacing:4px; text-transform:uppercase; color:var(--neon-pink); margin-bottom:10px; }
+.section-title { font-family:'Fredoka One',cursive; font-size:clamp(2rem,4.5vw,3.2rem); color:white; line-height:1.1; }
+.section-title span { background:linear-gradient(90deg,var(--neon-cyan),var(--neon-green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* SEARCH & FILTER */
+.search-section { padding:30px 40px 10px; position:relative; z-index:1; }
+.search-wrap { max-width:700px; margin:0 auto; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.search-input { flex:1; min-width:260px; background:rgba(255,255,255,0.07); border:1px solid rgba(0,245,255,0.3); color:white; padding:14px 20px; border-radius:50px; font-family:'Nunito',sans-serif; font-size:1rem; font-weight:700; outline:none; transition:border-color 0.3s,box-shadow 0.3s; }
+.search-input::placeholder { color:rgba(255,255,255,0.35); }
+.search-input:focus { border-color:var(--neon-cyan); box-shadow:var(--glow-cyan); }
+.filter-btns { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+.filter-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.65); padding:7px 18px; border-radius:50px; font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:700; cursor:pointer; transition:all 0.25s; letter-spacing:0.5px; }
+.filter-btn:hover { background:rgba(0,245,255,0.12); border-color:var(--neon-cyan); color:var(--neon-cyan); }
+.filter-btn.active { background:rgba(0,245,255,0.15); border-color:var(--neon-cyan); color:var(--neon-cyan); box-shadow:0 0 12px rgba(0,245,255,0.3); }
 
-  body {
-    background: var(--sky);
-    font-family: 'Nunito', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* GAMES GRID */
+.games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:22px; max-width:1350px; margin:0 auto; }
+.game-card { background:var(--card-bg); border:1px solid rgba(255,255,255,0.08); border-radius:22px; overflow:hidden; cursor:pointer; transition:transform 0.35s cubic-bezier(.175,.885,.32,1.275),box-shadow 0.35s; }
+.game-card:hover { transform:translateY(-10px) scale(1.02); box-shadow:0 28px 70px rgba(0,0,0,0.55); }
+.game-thumb { width:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; font-size:4.5rem; position:relative; overflow:hidden; }
+.game-thumb::before { content:''; position:absolute; inset:0; background:var(--game-grad); opacity:0.88; }
+.game-thumb-icon { position:relative; z-index:1; animation:bounceIcon 2.5s ease-in-out infinite; filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5)); }
+@keyframes bounceIcon { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-8px) scale(1.1)} }
+.game-badge { position:absolute; top:10px; right:10px; background:var(--neon-yellow); color:#1a1a00; font-family:'Fredoka One',cursive; font-size:0.7rem; padding:3px 10px; border-radius:50px; z-index:2; box-shadow:var(--glow-yellow); }
+.game-info { padding:18px; }
+.game-title { font-family:'Fredoka One',cursive; font-size:1.2rem; color:white; margin-bottom:5px; }
+.game-desc { font-size:0.82rem; color:rgba(255,255,255,0.48); line-height:1.5; margin-bottom:12px; }
+.game-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.game-rating { color:var(--neon-yellow); font-size:0.85rem; font-weight:700; }
+.game-age { background:rgba(255,255,255,0.07); border-radius:50px; padding:3px 10px; font-size:0.75rem; color:rgba(255,255,255,0.55); font-weight:700; }
+.game-category-tag { font-size:0.72rem; background:rgba(0,245,255,0.12); color:var(--neon-cyan); border-radius:50px; padding:3px 10px; font-weight:700; letter-spacing:0.5px; }
+.play-btn { display:block; width:100%; background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple)); color:white; border:none; padding:11px; border-radius:10px; font-family:'Fredoka One',cursive; font-size:0.95rem; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; box-shadow:0 4px 18px rgba(255,45,120,0.3); letter-spacing:0.5px; }
+.play-btn:hover { transform:scale(1.04); box-shadow:var(--glow-pink); }
+.no-results { text-align:center; color:rgba(255,255,255,0.4); font-family:'Fredoka One',cursive; font-size:1.5rem; padding:60px 20px; grid-column:1/-1; }
 
-  /* Custom cursor */
-  #cursor {
-    width: 28px; height: 28px;
-    border: 3px solid var(--neon-cyan);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background 0.2s;
-    box-shadow: var(--glow-cyan);
-    mix-blend-mode: screen;
-  }
-  #cursor.hovered {
-    width: 50px; height: 50px;
-    background: rgba(0,245,255,0.2);
-  }
-  #cursor-dot {
-    width: 6px; height: 6px;
-    background: var(--neon-cyan);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-  }
+/* MODAL GAME PLAYER */
+.modal-overlay { position:fixed; inset:0; background:rgba(5,5,20,0.97); z-index:9000; display:none; flex-direction:column; align-items:center; justify-content:flex-start; padding:20px; overflow-y:auto; }
+.modal-overlay.open { display:flex; }
+.modal-header { width:100%; max-width:1100px; display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.modal-title { font-family:'Fredoka One',cursive; font-size:1.6rem; color:white; }
+.modal-close { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:white; width:44px; height:44px; border-radius:50%; font-size:1.4rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; flex-shrink:0; }
+.modal-close:hover { background:rgba(255,45,120,0.3); }
+.game-frame-wrap { width:100%; max-width:1100px; background:#000; border-radius:16px; overflow:hidden; border:2px solid rgba(0,245,255,0.2); box-shadow:var(--glow-cyan); }
+.game-frame-wrap iframe { width:100%; height:600px; border:none; display:block; }
+.modal-info { width:100%; max-width:1100px; margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.modal-info .game-rating { color:var(--neon-yellow); font-size:1rem; font-weight:700; }
+.modal-info .game-age { background:rgba(255,255,255,0.07); border-radius:50px; padding:4px 14px; font-size:0.82rem; color:rgba(255,255,255,0.6); font-weight:700; }
+.modal-desc { color:rgba(255,255,255,0.55); font-size:0.9rem; flex:1; line-height:1.6; }
 
-  /* ===== STARFIELD BG ===== */
-  #starfield {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle linear infinite;
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.1; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.5); }
-  }
+/* CATEGORIES */
+.categories-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; max-width:1000px; margin:0 auto; }
+.cat-card { background:var(--card-bg); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:24px 14px; text-align:center; cursor:pointer; transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s; }
+.cat-card:hover { transform:translateY(-7px) scale(1.04); }
+.cat-icon { font-size:2.6rem; margin-bottom:10px; display:block; transition:transform 0.3s; }
+.cat-card:hover .cat-icon { transform:scale(1.2) rotate(8deg); }
+.cat-name { font-family:'Fredoka One',cursive; font-size:1rem; color:white; }
+.cat-count { font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:3px; }
 
-  /* ===== FLOATING SHAPES ===== */
-  .float-shape {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.12;
-    pointer-events: none;
-    animation: floatAround 20s ease-in-out infinite;
-    z-index: 0;
-  }
-  @keyframes floatAround {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(40px, -60px) scale(1.1); }
-    50% { transform: translate(-30px, 40px) scale(0.9); }
-    75% { transform: translate(60px, 20px) scale(1.05); }
-  }
+/* FEATURES */
+.features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; max-width:1100px; margin:0 auto; }
+.feature-card { background:var(--card-bg); border:1px solid rgba(255,255,255,0.07); border-radius:22px; padding:32px 26px; transition:transform 0.3s; position:relative; overflow:hidden; }
+.feature-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--feature-grad); border-radius:22px 22px 0 0; }
+.feature-card:hover { transform:translateY(-7px); }
+.feature-icon { font-size:2.8rem; margin-bottom:16px; }
+.feature-title { font-family:'Fredoka One',cursive; font-size:1.25rem; color:white; margin-bottom:8px; }
+.feature-desc { color:rgba(255,255,255,0.48); font-size:0.87rem; line-height:1.7; }
 
-  /* ===== NAVBAR ===== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 1000;
-    padding: 16px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(10,10,46,0.7);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0,245,255,0.15);
-  }
-  .logo {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2rem;
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200%;
-    animation: logoShift 3s linear infinite;
-    text-shadow: none;
-    letter-spacing: 1px;
-  }
-  @keyframes logoShift {
-    0% { background-position: 0%; }
-    100% { background-position: 200%; }
-  }
-  .logo span { font-size: 1.5rem; }
-  .nav-links { display: flex; gap: 30px; }
-  .nav-links a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: color 0.3s, text-shadow 0.3s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 2px;
-    background: var(--neon-cyan);
-    box-shadow: var(--glow-cyan);
-    transition: width 0.3s;
-  }
-  .nav-links a:hover { color: var(--neon-cyan); }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-btn {
-    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: var(--glow-pink);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .nav-btn:hover { transform: scale(1.08); }
-
-  /* ===== HERO ===== */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center; flex-direction: column;
-    text-align: center;
-    padding: 120px 20px 60px;
-    z-index: 1;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(0,245,255,0.1);
-    border: 1px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-    padding: 6px 20px;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    box-shadow: var(--glow-cyan);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.7;transform:scale(1.03);} }
-
-  .hero h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    line-height: 1;
-    margin-bottom: 16px;
-    position: relative;
-  }
-  .hero h1 .line1 {
-    display: block;
-    color: white;
-    text-shadow: 0 0 40px rgba(255,255,255,0.3);
-    animation: slideInDown 0.8s ease both;
-  }
-  .hero h1 .line2 {
-    display: block;
-    background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200%;
-    animation: slideInDown 0.8s 0.2s ease both, rainbowText 3s linear infinite;
-    filter: drop-shadow(0 0 20px var(--neon-pink));
-  }
-  @keyframes rainbowText { 0%{background-position:0%} 100%{background-position:200%} }
-  @keyframes slideInDown { from{opacity:0;transform:translateY(-40px)} to{opacity:1;transform:translateY(0)} }
-
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: rgba(255,255,255,0.65);
-    max-width: 600px;
-    margin: 0 auto 40px;
-    line-height: 1.7;
-    animation: fadeUp 0.8s 0.5s ease both;
-  }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-
-  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.7s ease both; }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-    color: white;
-    text-decoration: none;
-    padding: 16px 40px;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    box-shadow: var(--glow-pink);
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: inline-block;
-  }
-  .btn-primary:hover { transform: scale(1.07) translateY(-3px); box-shadow: 0 0 40px #ff2d78; }
-  .btn-secondary {
-    background: transparent;
-    color: var(--neon-cyan);
-    text-decoration: none;
-    padding: 14px 38px;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    border: 2px solid var(--neon-cyan);
-    box-shadow: var(--glow-cyan);
-    transition: transform 0.2s, background 0.2s;
-    display: inline-block;
-  }
-  .btn-secondary:hover { transform: scale(1.07) translateY(-3px); background: rgba(0,245,255,0.1); }
-
-  /* ===== 3D FLOATING ICONS ===== */
-  .floating-icons {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .ficon {
-    position: absolute;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    animation: iconFloat linear infinite;
-    opacity: 0.85;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.5));
-    transform-style: preserve-3d;
-  }
-  @keyframes iconFloat {
-    0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-    10% { opacity: 0.85; }
-    90% { opacity: 0.85; }
-    100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
-  }
-
-  /* ===== STATS BAR ===== */
-  .stats-bar {
-    position: relative; z-index: 1;
-    background: rgba(255,255,255,0.03);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    padding: 30px 40px;
-    display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2.5rem;
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .stat-label { color: rgba(255,255,255,0.5); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; }
-
-  /* ===== SECTION STYLES ===== */
-  section { position: relative; z-index: 1; padding: 80px 40px; }
-  .section-header { text-align: center; margin-bottom: 60px; }
-  .section-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--neon-pink);
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    color: white;
-    line-height: 1.1;
-  }
-  .section-title span {
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* ===== GAME CATEGORIES ===== */
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  .cat-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 28px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .cat-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--cat-color);
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: 20px;
-  }
-  .cat-card:hover { transform: translateY(-8px) scale(1.04); border-color: var(--cat-color-raw); box-shadow: 0 20px 50px var(--cat-color); }
-  .cat-card:hover::before { opacity: 0.1; }
-  .cat-icon { font-size: 3rem; margin-bottom: 12px; display: block; transition: transform 0.3s; }
-  .cat-card:hover .cat-icon { transform: scale(1.2) rotate(10deg); }
-  .cat-name { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: white; }
-  .cat-count { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
-
-  /* ===== FEATURED GAMES ===== */
-  .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    max-width: 1300px;
-    margin: 0 auto;
-  }
-  .game-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 24px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.4s;
-    position: relative;
-  }
-  .game-card:hover { transform: translateY(-12px) rotateX(4deg) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
-  .game-thumb {
-    width: 100%; aspect-ratio: 16/10;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .game-thumb::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--game-grad);
-    opacity: 0.9;
-  }
-  .game-thumb-icon {
-    position: relative; z-index: 1;
-    animation: bounceIcon 2s ease-in-out infinite;
-    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
-  }
-  @keyframes bounceIcon { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-10px) scale(1.1)} }
-  .game-badge {
-    position: absolute;
-    top: 12px; right: 12px;
-    background: var(--neon-yellow);
-    color: #1a1a00;
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.75rem;
-    padding: 4px 12px;
-    border-radius: 50px;
-    z-index: 2;
-    box-shadow: var(--glow-yellow);
-    letter-spacing: 1px;
-  }
-  .game-info { padding: 20px; }
-  .game-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    color: white;
-    margin-bottom: 6px;
-  }
-  .game-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 14px; }
-  .game-meta { display: flex; align-items: center; justify-content: space-between; }
-  .game-rating { color: var(--neon-yellow); font-size: 0.9rem; font-weight: 700; }
-  .game-age {
-    background: rgba(255,255,255,0.07);
-    border-radius: 50px;
-    padding: 4px 12px;
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.6);
-    font-weight: 700;
-  }
-  .play-btn {
-    display: block;
-    width: 100%;
-    margin-top: 14px;
-    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(255,45,120,0.3);
-    letter-spacing: 1px;
-  }
-  .play-btn:hover { transform: scale(1.04); box-shadow: var(--glow-pink); }
-
-  /* ===== MARQUEE STRIP ===== */
-  .marquee-strip {
-    position: relative; z-index: 1;
-    padding: 20px 0;
-    overflow: hidden;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    background: rgba(255,255,255,0.02);
-    margin: 20px 0;
-  }
-  .marquee-track {
-    display: flex; gap: 40px;
-    width: max-content;
-    animation: marquee 20s linear infinite;
-  }
-  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .marquee-item {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.3);
-    white-space: nowrap;
-    letter-spacing: 2px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .marquee-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--neon-pink); }
-
-  /* ===== FEATURE SECTION ===== */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .feature-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 24px;
-    padding: 36px 28px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-  .feature-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--feature-grad);
-    border-radius: 24px 24px 0 0;
-  }
-  .feature-icon { font-size: 3rem; margin-bottom: 20px; }
-  .feature-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    color: white;
-    margin-bottom: 10px;
-  }
-  .feature-desc { color: rgba(255,255,255,0.5); font-size: 0.9rem; line-height: 1.7; }
-
-  /* ===== TOP PICKS SLIDER ===== */
-  .slider-wrap { overflow: hidden; position: relative; }
-  .slider-track {
-    display: flex;
-    gap: 20px;
-    animation: slideTrack 30s linear infinite;
-    width: max-content;
-  }
-  @keyframes slideTrack { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .mini-card {
-    width: 200px; flex-shrink: 0;
-    background: var(--card-bg);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 18px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  .mini-card:hover { transform: scale(1.07) translateY(-5px); }
-  .mini-icon { font-size: 2.5rem; margin-bottom: 10px; }
-  .mini-title { font-family: 'Fredoka One', cursive; color: white; font-size: 0.95rem; }
-  .mini-genre { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
-
-  /* ===== CTA SECTION ===== */
-  .cta-section {
-    text-align: center;
-    padding: 100px 40px;
-    position: relative;
-    z-index: 1;
-  }
-  .cta-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,45,120,0.15), transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    pointer-events: none;
-  }
-  .cta-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    color: white;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  .cta-title em {
-    font-style: normal;
-    background: linear-gradient(90deg, var(--neon-yellow), var(--neon-green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .cta-sub { color: rgba(255,255,255,0.55); font-size: 1.1rem; margin-bottom: 40px; }
-
-  /* ===== FOOTER ===== */
-  footer {
-    position: relative; z-index: 1;
-    background: rgba(0,0,0,0.4);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 50px 40px 30px;
-    text-align: center;
-  }
-  .footer-logo {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2.5rem;
-    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 16px;
-  }
-  .footer-links { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
-  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-  .footer-links a:hover { color: var(--neon-cyan); }
-  .footer-copy { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
-  .footer-emojis { font-size: 1.5rem; letter-spacing: 8px; margin-bottom: 16px; }
-
-  /* ===== SCROLL ANIMATIONS ===== */
-  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ===== PARTICLES ===== */
-  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .particle {
-    position: absolute;
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    animation: particleDrift linear infinite;
-  }
-  @keyframes particleDrift {
-    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-10px) translateX(var(--drift)); opacity: 0; }
-  }
-
-  /* ===== 3D TILT ===== */
-  .tilt-target { transform-style: preserve-3d; transition: transform 0.1s; }
-
-  @media (max-width: 768px) {
-    nav { padding: 12px 20px; }
-    .nav-links { display: none; }
-    section { padding: 60px 20px; }
-    .stats-bar { gap: 40px; padding: 24px 20px; }
-  }
+/* CTA */
+.cta-section { text-align:center; padding:90px 40px; position:relative; z-index:1; }
+.cta-title { font-family:'Fredoka One',cursive; font-size:clamp(2.2rem,5.5vw,4.5rem); color:white; line-height:1.1; margin-bottom:18px; }
+.cta-title em { font-style:normal; background:linear-gradient(90deg,var(--neon-yellow),var(--neon-green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.cta-sub { color:rgba(255,255,255,0.5); font-size:1.05rem; margin-bottom:36px; }
+footer { position:relative; z-index:1; background:rgba(0,0,0,0.4); border-top:1px solid rgba(255,255,255,0.06); padding:46px 40px 26px; text-align:center; }
+.footer-logo { font-family:'Fredoka One',cursive; font-size:2.2rem; background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:14px; }
+.footer-links { display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-bottom:26px; }
+.footer-links a { color:rgba(255,255,255,0.38); text-decoration:none; font-size:0.88rem; transition:color 0.3s; }
+.footer-links a:hover { color:var(--neon-cyan); }
+.footer-copy { color:rgba(255,255,255,0.2); font-size:0.78rem; }
+.reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease,transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.results-count { text-align:center; color:rgba(255,255,255,0.4); font-size:0.85rem; font-weight:700; margin-bottom:20px; letter-spacing:1px; }
+@media (max-width:768px) { nav { padding:12px 18px; } .nav-links { display:none; } section { padding:50px 18px; } .stats-bar { gap:30px; padding:22px 18px; } .game-frame-wrap iframe { height:400px; } }
 </style>
 </head>
 <body>
 
-<!-- Custom Cursor -->
-<div id="cursor"></div>
-<div id="cursor-dot"></div>
-
-<!-- Starfield -->
 <div id="starfield"></div>
+<div class="float-shape" style="width:600px;height:600px;background:var(--neon-purple);top:-150px;left:-150px;animation-duration:25s;"></div>
+<div class="float-shape" style="width:450px;height:450px;background:var(--neon-pink);bottom:-80px;right:-80px;animation-duration:18s;animation-delay:-8s;"></div>
+<div class="float-shape" style="width:350px;height:350px;background:var(--neon-cyan);top:45%;left:52%;animation-duration:22s;animation-delay:-12s;"></div>
 
-<!-- Floating bg shapes -->
-<div class="float-shape" style="width:700px;height:700px;background:var(--neon-purple);top:-200px;left:-200px;animation-duration:25s;"></div>
-<div class="float-shape" style="width:500px;height:500px;background:var(--neon-pink);bottom:-100px;right:-100px;animation-duration:18s;animation-delay:-8s;"></div>
-<div class="float-shape" style="width:400px;height:400px;background:var(--neon-cyan);top:40%;left:50%;animation-duration:22s;animation-delay:-12s;"></div>
+<!-- Game Player Modal -->
+<div class="modal-overlay" id="gameModal">
+  <div class="modal-header">
+    <div class="modal-title" id="modalTitle">Game</div>
+    <button class="modal-close" onclick="closeGame()">✕</button>
+  </div>
+  <div class="game-frame-wrap">
+    <iframe id="gameFrame" src="" allowfullscreen scrolling="no" allow="fullscreen *"></iframe>
+  </div>
+  <div class="modal-info">
+    <span class="game-rating" id="modalRating"></span>
+    <span class="game-age" id="modalAge"></span>
+    <span class="modal-desc" id="modalDesc"></span>
+  </div>
+</div>
 
-<!-- Particles -->
-<div class="particles" id="particles"></div>
-
-<!-- Navbar -->
 <nav>
   <div class="logo">🎮 TimmyCenter</div>
   <div class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">Games</a>
-    <a href="#">Leaderboard</a>
-    <a href="#">Parents</a>
-    <a href="#">About</a>
+    <a href="#home">Home</a>
+    <a href="#games">Games</a>
+    <a href="#categories">Categories</a>
+    <a href="#features">Why Us</a>
   </div>
-  <button class="nav-btn">🚀 Play Now!</button>
+  <button class="nav-btn" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">🚀 Play Now!</button>
 </nav>
 
-<!-- Floating Icons -->
-<div class="floating-icons" id="floatingIcons"></div>
-
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">✨ 500+ Games for Kids ✨</div>
+<section class="hero" id="home">
+  <div class="hero-badge">✨ 500+ Games — All Free to Play! ✨</div>
   <h1>
     <span class="line1">Welcome to</span>
     <span class="line2">TimmyCenter!</span>
   </h1>
-  <p class="hero-sub">The most exciting gaming paradise for kids! Explore hundreds of fun, safe, and amazing games that will spark your imagination and keep you entertained for hours! 🌟</p>
+  <p class="hero-sub">The safest, most exciting gaming paradise for kids! Hundreds of free games you can play right now — no download needed! 🌟</p>
   <div class="hero-btns">
-    <a href="#" class="btn-primary">🎮 Start Playing!</a>
-    <a href="#" class="btn-secondary">🗺️ Explore Games</a>
+    <button class="btn-primary" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">🎮 Start Playing!</button>
+    <button class="btn-secondary" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">🗺️ Browse Categories</button>
   </div>
 </section>
 
 <!-- Stats -->
 <div class="stats-bar reveal">
-  <div class="stat">
-    <div class="stat-num" id="stat1">0</div>
-    <div class="stat-label">Fun Games</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num" id="stat2">0</div>
-    <div class="stat-label">Happy Kids</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num" id="stat3">0</div>
-    <div class="stat-label">Game Categories</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num" id="stat4">0</div>
-    <div class="stat-label">Stars Earned</div>
-  </div>
-</div>
-
-<!-- Marquee Strip -->
-<div class="marquee-strip">
-  <div class="marquee-track" id="marqueeTrack"></div>
+  <div class="stat"><div class="stat-num" id="stat1">0</div><div class="stat-label">Fun Games</div></div>
+  <div class="stat"><div class="stat-num" id="stat2">0</div><div class="stat-label">Happy Kids</div></div>
+  <div class="stat"><div class="stat-num" id="stat3">0</div><div class="stat-label">Categories</div></div>
+  <div class="stat"><div class="stat-num" id="stat4">0</div><div class="stat-label">Free Always</div></div>
 </div>
 
 <!-- CATEGORIES -->
 <section id="categories">
   <div class="section-header reveal">
     <div class="section-tag">🗂️ Browse by Type</div>
-    <h2 class="section-title">All Your Favourite <span>Game Categories</span></h2>
+    <h2 class="section-title">Pick Your Favourite <span>Category</span></h2>
   </div>
   <div class="categories-grid reveal" id="categoriesGrid"></div>
 </section>
 
-<!-- FEATURED GAMES -->
-<section id="games">
-  <div class="section-header reveal">
-    <div class="section-tag">⭐ Staff Picks</div>
-    <h2 class="section-title">Featured <span>Games</span> This Week</h2>
+<!-- SEARCH + GAMES -->
+<div class="search-section" id="games">
+  <div class="section-header reveal" style="margin-bottom:24px;">
+    <div class="section-tag">🎮 All Games</div>
+    <h2 class="section-title">Play <span>Right Now!</span></h2>
   </div>
-  <div class="games-grid" id="gamesGrid"></div>
-</section>
+  <div class="search-wrap reveal">
+    <input class="search-input" type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames()">
+  </div>
+  <div class="filter-btns reveal" id="filterBtns"></div>
+</div>
 
-<!-- MINI SLIDER -->
-<section style="padding: 40px 0;">
-  <div class="section-header reveal">
-    <div class="section-tag">🔥 Trending Now</div>
-    <h2 class="section-title">Hot <span>Right Now</span></h2>
-  </div>
-  <div class="slider-wrap">
-    <div class="slider-track" id="sliderTrack"></div>
-  </div>
+<section style="padding-top:20px;" id="gamesSection">
+  <div class="results-count" id="resultsCount"></div>
+  <div class="games-grid" id="gamesGrid"></div>
 </section>
 
 <!-- FEATURES -->
@@ -714,187 +232,450 @@
 
 <!-- CTA -->
 <div class="cta-section reveal">
-  <div class="cta-glow"></div>
   <h2 class="cta-title">Ready for the <em>Ultimate</em><br>Gaming Adventure?</h2>
-  <p class="cta-sub">Join millions of kids already having the time of their lives at TimmyCenter!</p>
-  <a href="#" class="btn-primary" style="font-size:1.4rem;padding:20px 60px;">🎉 Let's Play!</a>
+  <p class="cta-sub">500+ free games — pick one and play right now, no sign-up needed!</p>
+  <button class="btn-primary" style="font-size:1.3rem;padding:18px 54px;" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">🎉 Let's Play!</button>
 </div>
 
-<!-- Footer -->
 <footer>
   <div class="footer-logo">🎮 TimmyCenter</div>
-  <div class="footer-emojis">🚀🌈⭐🎯🏆🎪🎠</div>
+  <div style="font-size:1.4rem;letter-spacing:8px;margin-bottom:14px;">🚀🌈⭐🎯🏆🎪🎠</div>
   <div class="footer-links">
-    <a href="#">Home</a>
-    <a href="#">Games</a>
-    <a href="#">Safety</a>
-    <a href="#">Parents</a>
-    <a href="#">Privacy</a>
-    <a href="#">Contact</a>
+    <a href="#">Home</a><a href="#">Games</a><a href="#">Safety</a><a href="#">Parents</a><a href="#">Privacy</a><a href="#">Contact</a>
   </div>
-  <div class="footer-copy">© 2026 TimmyCenter · Safe gaming for every kid 🌟 Made with ❤️ for little adventurers</div>
+  <div class="footer-copy">© 2026 TimmyCenter · Safe gaming for every kid 🌟 All games open in a safe embedded player.</div>
 </footer>
 
 <script>
-// ========== CURSOR ==========
-const cursor = document.getElementById('cursor');
-const cursorDot = document.getElementById('cursor-dot');
-let mx=0, my=0, cx=0, cy=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursorDot.style.left=mx+'px'; cursorDot.style.top=my+'px'; });
-document.querySelectorAll('a, button, .game-card, .cat-card, .mini-card').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-});
-function animateCursor() {
-  cx += (mx - cx) * 0.12; cy += (my - cy) * 0.12;
-  cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
-
-// ========== STARFIELD ==========
+// ===== STARFIELD =====
 const sf = document.getElementById('starfield');
-for (let i = 0; i < 180; i++) {
+for (let i = 0; i < 160; i++) {
   const star = document.createElement('div');
   star.className = 'star';
   const size = Math.random() * 3 + 0.5;
-  star.style.cssText = `
-    left:${Math.random()*100}%;top:${Math.random()*100}%;
-    width:${size}px;height:${size}px;
-    animation-duration:${Math.random()*4+2}s;
-    animation-delay:${Math.random()*5}s;
-    opacity:${Math.random()*0.8};
-  `;
+  star.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s;opacity:${Math.random()*0.7};`;
   sf.appendChild(star);
 }
 
-// ========== FLOATING ICONS ==========
-const gameEmojis = ['🎮','🕹️','🎯','🏆','⭐','🎲','🎪','🌈','🚀','💎','🎠','🎡','🎢','🦄','🐉','🤖','👾','🎃','🌟','🔥','💫','🎈','🎉','🎊','🍭','🍬','🌊','⚡','🎸','🏅'];
-const fi = document.getElementById('floatingIcons');
-for (let i = 0; i < 25; i++) {
-  const icon = document.createElement('div');
-  icon.className = 'ficon';
-  const x = Math.random() * 100;
-  const dur = Math.random() * 15 + 10;
-  const delay = Math.random() * 20;
-  const emoji = gameEmojis[Math.floor(Math.random() * gameEmojis.length)];
-  icon.style.cssText = `left:${x}%;animation-duration:${dur}s;animation-delay:-${delay}s;`;
-  icon.textContent = emoji;
-  fi.appendChild(icon);
-}
+// ===== GAMES DATA =====
+// All games use free embed URLs from CrazyGames, Scratch, itch.io, and other freely embeddable platforms
+const GAMES = [
+  // ACTION
+  {id:1,title:"Shell Shockers",desc:"Egg-citing multiplayer FPS where you are an egg with a gun! Battle other eggs online.",icon:"🥚",badge:"HOT 🔥",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Action",grad:"linear-gradient(135deg,#ff6b6b,#ff2d78)",url:"https://shellshock.io/"},
+  {id:2,title:"Krunker.io",desc:"Fast-paced blocky multiplayer shooter. Jump, slide and blast your way to victory!",icon:"🔫",badge:"POPULAR",rating:"⭐⭐⭐⭐⭐",age:"Ages 10+",cat:"Action",grad:"linear-gradient(135deg,#e74c3c,#8e44ad)",url:"https://krunker.io/"},
+  {id:3,title:"Bullet Force",desc:"3D multiplayer military shooter with many maps and weapons to choose from.",icon:"💥",badge:"TOP PICK",rating:"⭐⭐⭐⭐½",age:"Ages 10+",cat:"Action",grad:"linear-gradient(135deg,#c0392b,#2c3e50)",url:"https://www.crazygames.com/game/bullet-force-multiplayer"},
+  {id:4,title:"Alien Attack",desc:"Defend Earth from wave after wave of alien invaders in this classic arcade shooter!",icon:"👾",badge:"CLASSIC",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Action",grad:"linear-gradient(135deg,#6b00ff,#00f5ff)",url:"https://scratch.mit.edu/projects/10128407/embed"},
+  {id:5,title:"Stickman Fighter",desc:"Epic stickman battle! Fight enemies with combos and special moves.",icon:"🥊",badge:"FUN!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Action",grad:"linear-gradient(135deg,#ff6600,#ffe600)",url:"https://www.crazygames.com/game/stickman-fighter-epic-battle"},
+  {id:6,title:"Zombie Derby",desc:"Drive through zombie-filled roads, smash undead and survive as long as you can!",icon:"🧟",badge:"WILD!",rating:"⭐⭐⭐⭐",age:"Ages 10+",cat:"Action",grad:"linear-gradient(135deg,#2d5a1b,#39ff14)",url:"https://www.crazygames.com/game/zombie-derby-2"},
+  {id:7,title:"Fireboy & Watergirl 1",desc:"Classic co-op adventure! Guide Fireboy and Watergirl through the forest temple.",icon:"🔥",badge:"CLASSIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#ff4500,#1e90ff)",url:"https://www.crazygames.com/game/fireboy-and-watergirl-1-the-forest-temple"},
+  {id:8,title:"Fireboy & Watergirl 2",desc:"Back with a new ice temple! Work together to solve frozen puzzles.",icon:"❄️",badge:"SEQUEL",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#00b4d8,#ff4500)",url:"https://www.crazygames.com/game/fireboy-and-watergirl-2"},
+  {id:9,title:"Ninja Rush",desc:"Slice, dash and dodge as a nimble ninja through neon obstacle courses!",icon:"🥷",badge:"COOL",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Action",grad:"linear-gradient(135deg,#1a1a2e,#bf00ff)",url:"https://www.crazygames.com/game/ninja-rush"},
+  {id:10,title:"Angry Sharks",desc:"Eat fish, swim fast, and grow your shark as big as possible!",icon:"🦈",badge:"CHOMP!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#0077b6,#90e0ef)",url:"https://www.crazygames.com/game/angry-sharks"},
 
-// ========== PARTICLES ==========
-const pc = document.getElementById('particles');
-const colors = ['#ff2d78','#00f5ff','#ffe600','#39ff14','#bf00ff','#ff6600'];
-for (let i = 0; i < 40; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const color = colors[Math.floor(Math.random() * colors.length)];
-  const drift = (Math.random() - 0.5) * 200 + 'px';
-  p.style.cssText = `
-    left:${Math.random()*100}%;
-    background:${color};
-    box-shadow:0 0 8px ${color};
-    animation-duration:${Math.random()*12+8}s;
-    animation-delay:-${Math.random()*15}s;
-    --drift:${drift};
-    width:${Math.random()*4+2}px;height:${Math.random()*4+2}px;
-  `;
-  pc.appendChild(p);
-}
+  // PUZZLE
+  {id:11,title:"2048",desc:"Slide tiles to combine numbers and reach the legendary 2048 tile!",icon:"🔢",badge:"BRAINY",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#f7941d,#ffd700)",url:"https://play2048.co/"},
+  {id:12,title:"Tetris",desc:"The all-time classic! Stack falling blocks and clear lines as fast as you can.",icon:"🟦",badge:"LEGEND",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#0000ff,#00f5ff)",url:"https://www.crazygames.com/game/tetris"},
+  {id:13,title:"Cut The Rope",desc:"Feed candy to Om Nom by cutting ropes! Clever physics puzzles for all ages.",icon:"🍬",badge:"YUMMY!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Puzzle",grad:"linear-gradient(135deg,#ff6b6b,#ffd93d)",url:"https://www.crazygames.com/game/cut-the-rope"},
+  {id:14,title:"Mahjong Classic",desc:"Match tiles to clear the board in this classic Chinese tile-matching puzzle game!",icon:"🀄",badge:"CLASSIC",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#c0392b,#f39c12)",url:"https://www.crazygames.com/game/mahjong-classic"},
+  {id:15,title:"Sudoku",desc:"Fill the grid with numbers 1-9. Train your brain with easy to expert levels!",icon:"🔡",badge:"SMART",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Puzzle",grad:"linear-gradient(135deg,#2c3e50,#4ca1af)",url:"https://www.crazygames.com/game/sudoku-classic"},
+  {id:16,title:"Unblock Ball",desc:"Slide blocks to create a path for the ball to reach the goal. Very satisfying!",icon:"⚽",badge:"SATISFYING",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#00b09b,#96c93d)",url:"https://www.crazygames.com/game/unblock-ball"},
+  {id:17,title:"Zuma's Revenge",desc:"Shoot colored balls to match and eliminate the chain before it reaches the end!",icon:"🐸",badge:"ADDICTIVE",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#11998e,#38ef7d)",url:"https://www.crazygames.com/game/zuma-s-revenge"},
+  {id:18,title:"Jigsaw World",desc:"Hundreds of beautiful jigsaw puzzles! Choose your difficulty and dive in.",icon:"🧩",badge:"RELAXING",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Puzzle",grad:"linear-gradient(135deg,#a18cd1,#fbc2eb)",url:"https://www.crazygames.com/game/jigsaw-world"},
+  {id:19,title:"Bloxorz",desc:"Roll the block through levels without falling off. A true brain bender!",icon:"📦",badge:"TRICKY",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#3a1c71,#d76d77)",url:"https://www.crazygames.com/game/bloxorz"},
+  {id:20,title:"Good Sudoku",desc:"Beautiful modern take on the classic Sudoku. Hints available for beginners!",icon:"🔣",badge:"BEAUTIFUL",rating:"⭐⭐⭐⭐½",age:"Ages 8+",cat:"Puzzle",grad:"linear-gradient(135deg,#1a1a2e,#4fc3f7)",url:"https://www.crazygames.com/game/sudoku"},
 
-// ========== MARQUEE ==========
-const marqueeItems = ['🎮 Adventure Games','🏃 Run & Jump','🧩 Puzzle Fun','🐾 Animal World','🚗 Racing Madness','🌊 Ocean Explorer','🚀 Space Mission','🏰 Castle Quest','🎨 Creative Studio','🔮 Magic Kingdom','🦸 Super Heroes','🌴 Jungle Safari'];
-const mt = document.getElementById('marqueeTrack');
-const marqueeContent = [...marqueeItems, ...marqueeItems].map(t => `<span class="marquee-item"><span class="dot"></span>${t}</span>`).join('');
-mt.innerHTML = marqueeContent;
+  // RACING
+  {id:21,title:"Moto X3M",desc:"Perform insane stunts on a wild motorbike through crazy obstacle courses!",icon:"🏍️",badge:"HOT 🔥",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#f46b45,#eea849)",url:"https://www.crazygames.com/game/moto-x3m"},
+  {id:22,title:"Moto X3M 2",desc:"Even more extreme stunts! New tracks, new bikes, more insane jumps.",icon:"🏁",badge:"SEQUEL",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#e74c3c,#f46b45)",url:"https://www.crazygames.com/game/moto-x3m-2"},
+  {id:23,title:"Drift Boss",desc:"Drift your car on an endless platform without falling off. How far can you go?",icon:"🚗",badge:"DRIFTY",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Racing",grad:"linear-gradient(135deg,#667eea,#764ba2)",url:"https://www.crazygames.com/game/drift-boss"},
+  {id:24,title:"Road Fury",desc:"Drive through traffic, avoid crashes, and become the ultimate road warrior!",icon:"🚕",badge:"FAST!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#ff6600,#ffe600)",url:"https://www.crazygames.com/game/road-fury"},
+  {id:25,title:"Burnout Drift",desc:"Drift across massive tracks, earn points with perfect slides, and unlock new cars!",icon:"💨",badge:"SMOKY",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#434343,#ffe600)",url:"https://www.crazygames.com/game/burnout-drift"},
+  {id:26,title:"Slope",desc:"Roll a ball down an endless slope at crazy speed. Don't fall off the edge!",icon:"🔮",badge:"ADDICTIVE",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Racing",grad:"linear-gradient(135deg,#00c6fb,#005bea)",url:"https://www.crazygames.com/game/slope"},
+  {id:27,title:"Tunnel Rush",desc:"Fly through a neon tunnel at warp speed. Dodge, duck and survive!",icon:"🌀",badge:"NEON!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Racing",grad:"linear-gradient(135deg,#bf00ff,#00f5ff)",url:"https://www.crazygames.com/game/tunnel-rush"},
+  {id:28,title:"Hill Climb Racing",desc:"Drive a wobbly car up huge hills without flipping. Collect coins along the way!",icon:"⛰️",badge:"CLASSIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Racing",grad:"linear-gradient(135deg,#2d6a4f,#74c69d)",url:"https://www.crazygames.com/game/hill-climb-racing"},
+  {id:29,title:"Parking Fury 3D",desc:"Park your car perfectly in tight spots. Test your driving skills!",icon:"🅿️",badge:"TRICKY",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Racing",grad:"linear-gradient(135deg,#355c7d,#6c5b7b)",url:"https://www.crazygames.com/game/parking-fury-3d"},
+  {id:30,title:"Super Bikes 2",desc:"Race powerful superbikes on circuit tracks and beat the competition!",icon:"🏎️",badge:"VROOM",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#d31027,#ea384d)",url:"https://www.crazygames.com/game/super-bikes-2"},
 
-// ========== CATEGORIES ==========
-const categories = [
-  {icon:'🏃',name:'Action',count:'80+ Games',color:'#ff2d78',raw:'#ff2d78'},
-  {icon:'🧩',name:'Puzzle',count:'65+ Games',color:'#00f5ff',raw:'#00f5ff'},
-  {icon:'🚗',name:'Racing',count:'40+ Games',color:'#ffe600',raw:'#ffe600'},
-  {icon:'🌍',name:'Adventure',count:'90+ Games',color:'#39ff14',raw:'#39ff14'},
-  {icon:'🎨',name:'Creative',count:'55+ Games',color:'#bf00ff',raw:'#bf00ff'},
-  {icon:'⚽',name:'Sports',count:'35+ Games',color:'#ff6600',raw:'#ff6600'},
-  {icon:'🎵',name:'Music',count:'30+ Games',color:'#ff2d78',raw:'#ff2d78'},
-  {icon:'🔬',name:'Science',count:'25+ Games',color:'#00f5ff',raw:'#00f5ff'},
-  {icon:'🐾',name:'Animals',count:'45+ Games',color:'#ffe600',raw:'#ffe600'},
-  {icon:'🌌',name:'Space',count:'20+ Games',color:'#bf00ff',raw:'#bf00ff'},
+  // ADVENTURE
+  {id:31,title:"Minecraft Classic",desc:"The original Minecraft — build anything with 32 block types in your browser!",icon:"⛏️",badge:"LEGEND",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Adventure",grad:"linear-gradient(135deg,#4caf50,#8bc34a)",url:"https://classic.minecraft.net/"},
+  {id:32,title:"Dino Game",desc:"The classic Chrome dinosaur game! Jump over cacti and dodge pterodactyls.",icon:"🦕",badge:"CLASSIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Adventure",grad:"linear-gradient(135deg,#2d2d2d,#6b6b6b)",url:"https://chromedino.com/"},
+  {id:33,title:"Vex 4",desc:"Run, jump, slide and wall-climb through devious obstacle courses as a stickman!",icon:"🏃",badge:"EPIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#764ba2,#667eea)",url:"https://www.crazygames.com/game/vex-4"},
+  {id:34,title:"Vex 5",desc:"Even more obstacles, more stages, more tricks in the latest Vex adventure!",icon:"🧗",badge:"NEW ✨",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#8a2387,#e94057)",url:"https://www.crazygames.com/game/vex-5"},
+  {id:35,title:"Bob the Robber",desc:"Sneak through buildings, avoid guards, crack safes and steal treasure!",icon:"🕵️",badge:"SNEAKY",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#1a1a2e,#e94560)",url:"https://www.crazygames.com/game/bob-the-robber"},
+  {id:36,title:"Kingdom Rush",desc:"Defend your kingdom from waves of orcs and trolls. Build towers strategically!",icon:"🏰",badge:"STRATEGY",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#8B4513,#DAA520)",url:"https://www.crazygames.com/game/kingdom-rush"},
+  {id:37,title:"Into The Dead 2",desc:"Run through zombie hordes using weapons to survive as long as possible!",icon:"🧟",badge:"SCARY!",rating:"⭐⭐⭐⭐",age:"Ages 12+",cat:"Adventure",grad:"linear-gradient(135deg,#2d5a1b,#1a1a1a)",url:"https://www.crazygames.com/game/into-the-dead-2"},
+  {id:38,title:"Stickman Hook",desc:"Swing like Spiderman using your grappling hook through neon levels!",icon:"🕸️",badge:"SWING!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Adventure",grad:"linear-gradient(135deg,#ff2d78,#bf00ff)",url:"https://www.crazygames.com/game/stickman-hook"},
+  {id:39,title:"Cave Heroes",desc:"Explore dark caves, fight monsters, collect treasure in a pixel adventure!",icon:"⚔️",badge:"RPG",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#3a1c71,#d76d77)",url:"https://scratch.mit.edu/projects/114235181/embed"},
+  {id:40,title:"Among Us Online",desc:"Find the impostor hiding among the crew. Can you survive the spaceship?",icon:"👨‍🚀",badge:"SUPER HOT",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#6200ea,#00e5ff)",url:"https://www.crazygames.com/game/among-us-online"},
+
+  // SPORTS
+  {id:41,title:"Basketball Stars",desc:"Duel a friend or the AI in 1v1 basketball. Shoot hoops and win the trophy!",icon:"🏀",badge:"SLAM!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://www.crazygames.com/game/basketball-stars"},
+  {id:42,title:"Soccer Random",desc:"Totally random and hilarious soccer with wobbly physics. Score goals!",icon:"⚽",badge:"HILAR!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#11998e,#38ef7d)",url:"https://www.crazygames.com/game/soccer-random"},
+  {id:43,title:"Head Soccer",desc:"Head the ball into the goal using special power shots. Play vs friends!",icon:"🥅",badge:"HEADS!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#005c97,#363795)",url:"https://www.crazygames.com/game/head-soccer"},
+  {id:44,title:"8 Ball Pool",desc:"Classic pool game! Sink your balls and pot the black to win the match.",icon:"🎱",badge:"SMOOTH",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Sports",grad:"linear-gradient(135deg,#141414,#52c234)",url:"https://www.crazygames.com/game/8-ball-pool"},
+  {id:45,title:"Ping Pong Chaos",desc:"Ultra-fast table tennis against crazy opponents. Smash and spike!",icon:"🏓",badge:"FAST!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#f46b45,#eea849)",url:"https://www.crazygames.com/game/ping-pong-chaos"},
+  {id:46,title:"Baseball Pro",desc:"Hit home runs and strike batters out in this fun baseball simulator!",icon:"⚾",badge:"BATTER!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#2c3e50,#fd746c)",url:"https://www.crazygames.com/game/baseball-pro"},
+  {id:47,title:"Bowling King",desc:"Bowl perfect strikes in 3D bowling alleys from around the world!",icon:"🎳",badge:"STRIKE!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#7b4397,#dc2430)",url:"https://www.crazygames.com/game/bowling-king"},
+  {id:48,title:"Tennis Masters",desc:"Serve, volley and ace your way to the tennis championship!",icon:"🎾",badge:"ACE!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#a8e063,#56ab2f)",url:"https://www.crazygames.com/game/tennis-masters"},
+  {id:49,title:"Ice Hockey",desc:"Pass, shoot and score in this slick ice hockey game. Cold, fast, fun!",icon:"🏒",badge:"COOL!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#4fc3f7,#0288d1)",url:"https://www.crazygames.com/game/ice-hockey"},
+  {id:50,title:"Volley Random",desc:"Spike and dive in this hilariously chaotic volleyball game!",icon:"🏐",badge:"SPIKE!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#11998e,#f7971e)",url:"https://www.crazygames.com/game/volleyball-random"},
+
+  // CREATIVE
+  {id:51,title:"Pixel Art",desc:"Make amazing pixel art with hundreds of colors. Create your own masterpieces!",icon:"🎨",badge:"ARTSY",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Creative",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://www.pixilart.com/draw"},
+  {id:52,title:"Make It Meme",desc:"Create hilarious memes with classic templates. The funniest wins!",icon:"😂",badge:"LOLS!",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Creative",grad:"linear-gradient(135deg,#4facfe,#00f2fe)",url:"https://www.crazygames.com/game/make-it-meme"},
+  {id:53,title:"Build A House",desc:"Design and decorate your dream house with tons of furniture and styles!",icon:"🏠",badge:"BUILD!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Creative",grad:"linear-gradient(135deg,#43e97b,#38f9d7)",url:"https://www.crazygames.com/game/build-a-house"},
+  {id:54,title:"Skribbl.io",desc:"Draw and guess what others draw! A multiplayer Pictionary-style party game.",icon:"✏️",badge:"DRAW!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Creative",grad:"linear-gradient(135deg,#ffecd2,#fcb69f)",url:"https://skribbl.io/"},
+  {id:55,title:"Minecraft Painting",desc:"Create awesome block-style pixel art inspired by Minecraft's world!",icon:"🖼️",badge:"PIXEL",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Creative",grad:"linear-gradient(135deg,#4caf50,#1976d2)",url:"https://www.crazygames.com/game/pixel-art"},
+  {id:56,title:"Color by Number",desc:"Relax and color beautiful pictures by following the numbered guide!",icon:"🖌️",badge:"CALM",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Creative",grad:"linear-gradient(135deg,#a18cd1,#fbc2eb)",url:"https://www.crazygames.com/game/color-by-number-online"},
+  {id:57,title:"Sand Simulator",desc:"Mix different colored sands, add water and fire — create amazing reactions!",icon:"🏖️",badge:"SCIENCE",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Creative",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://sand.matthewrayfield.com/"},
+  {id:58,title:"Make A Cake",desc:"Bake and decorate cakes with layers, frosting, candles and toppings!",icon:"🎂",badge:"YUMMY!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Creative",grad:"linear-gradient(135deg,#ff9a9e,#fecfef)",url:"https://www.crazygames.com/game/make-a-cake"},
+  {id:59,title:"Sticker Book",desc:"Create amazing sticker collages with animals, stars and fun shapes!",icon:"⭐",badge:"CUTE!",rating:"⭐⭐⭐⭐",age:"Ages 3+",cat:"Creative",grad:"linear-gradient(135deg,#f093fb,#ffd32a)",url:"https://scratch.mit.edu/projects/98069899/embed"},
+  {id:60,title:"Draw It",desc:"Draw letters and shapes to build words and solve challenges!",icon:"🖊️",badge:"CLEVER",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Creative",grad:"linear-gradient(135deg,#56ccf2,#2f80ed)",url:"https://www.crazygames.com/game/draw-it"},
+
+  // IO GAMES
+  {id:61,title:"Agar.io",desc:"Eat smaller cells to grow massive, then swallow everyone to become the biggest!",icon:"🔵",badge:"HUGE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#56ab2f,#a8e063)",url:"https://agar.io/"},
+  {id:62,title:"Slither.io",desc:"Eat glowing orbs to grow your snake. Trap others to eliminate them!",icon:"🐍",badge:"SLITHER",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"IO Games",grad:"linear-gradient(135deg,#11998e,#38ef7d)",url:"https://slither.io/"},
+  {id:63,title:"Diep.io",desc:"Shoot shapes to level up and upgrade your tank. Become the most powerful!",icon:"🔫",badge:"TANKS!",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"IO Games",grad:"linear-gradient(135deg,#667eea,#764ba2)",url:"https://diep.io/"},
+  {id:64,title:"Paper.io 2",desc:"Capture territory by drawing loops. Don't let others cross your trail!",icon:"📄",badge:"TERRITORY",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"IO Games",grad:"linear-gradient(135deg,#4facfe,#00f2fe)",url:"https://paper-io.com/"},
+  {id:65,title:"Splix.io",desc:"Expand your colored area and eliminate players who cross into your zone!",icon:"🟩",badge:"EXPAND!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#38ef7d,#11998e)",url:"http://splix.io/"},
+  {id:66,title:"Wormate.io",desc:"Eat cakes and sweets to grow your worm. Outsmart other worms to win!",icon:"🍰",badge:"SWEET!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"IO Games",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://wormate.io/"},
+  {id:67,title:"Zombs.io",desc:"Build a base, gather gold, survive zombie nights! Multiplayer tower defense.",icon:"🧟",badge:"DEFEND",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"IO Games",grad:"linear-gradient(135deg,#2d5a1b,#39ff14)",url:"https://zombs.io/"},
+  {id:68,title:"Kugeln.io",desc:"Roll a ball and push other players off the platform. Last one standing wins!",icon:"⚾",badge:"PUSH!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#e74c3c,#f39c12)",url:"https://kugeln.io/"},
+  {id:69,title:"Lordz.io",desc:"Build an army of soldiers, knights and dragons to conquer the map!",icon:"⚔️",badge:"CONQUER",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"IO Games",grad:"linear-gradient(135deg,#8B4513,#c0392b)",url:"https://www.lordz.io/"},
+  {id:70,title:"Gartic.io",desc:"An online drawing and guessing game. Draw the word before time runs out!",icon:"✏️",badge:"DRAW!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#a8edea,#fed6e3)",url:"https://gartic.io/"},
+
+  // SCRATCH GAMES
+  {id:71,title:"Platformer Adventure",desc:"Jump through colourful platforms, collect coins and reach the flag!",icon:"🍄",badge:"CUTE",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Platformer",grad:"linear-gradient(135deg,#56ccf2,#2f80ed)",url:"https://scratch.mit.edu/projects/10128407/embed"},
+  {id:72,title:"Geometry Dash",desc:"Jump and fly to the beat of the music through crazy geometry obstacles!",icon:"🔷",badge:"RHYTHM",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Platformer",grad:"linear-gradient(135deg,#6a3093,#a044ff)",url:"https://www.crazygames.com/game/geometry-dash"},
+  {id:73,title:"Geometry Dash Lite",desc:"Free version of Geometry Dash with plenty of levels to master!",icon:"🔶",badge:"FREE",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Platformer",grad:"linear-gradient(135deg,#f7971e,#6a3093)",url:"https://geometrydashgame.org/"},
+  {id:74,title:"Run 3",desc:"Run, skate and float through a never-ending space tunnel! Addicting runner.",icon:"🏃",badge:"ENDLESS",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#141e30,#00c6fb)",url:"https://www.crazygames.com/game/run-3"},
+  {id:75,title:"Run 4",desc:"Even more galaxy tunnels! New characters and challenges in the space runner.",icon:"🚀",badge:"SPACE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#1a1a2e,#bf00ff)",url:"https://www.crazygames.com/game/run-4"},
+  {id:76,title:"Super Mario Bros",desc:"The legendary plumber's adventure — jump on Goombas, save Princess Peach!",icon:"🍄",badge:"LEGEND",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Platformer",grad:"linear-gradient(135deg,#e74c3c,#3498db)",url:"https://supermario-game.com/"},
+  {id:77,title:"Doodle Jump",desc:"Jump up on platforms without falling and dodge enemies to reach the top!",icon:"👾",badge:"BOUNCY",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Platformer",grad:"linear-gradient(135deg,#a8edea,#fed6e3)",url:"https://www.crazygames.com/game/doodle-jump"},
+  {id:78,title:"Only Up",desc:"Parkour upward without falling — every fall sends you back to the bottom!",icon:"⬆️",badge:"VIRAL!",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Platformer",grad:"linear-gradient(135deg,#56ab2f,#a8e063)",url:"https://www.crazygames.com/game/only-up"},
+  {id:79,title:"Tomb Runner",desc:"Run from a giant boulder in ancient ruins! Dodge traps and collect gems.",icon:"💎",badge:"RUN!!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#8B6914,#c0392b)",url:"https://www.crazygames.com/game/tomb-runner"},
+  {id:80,title:"Flappy Bird",desc:"The original impossible bird game. Tap to fly between pipes without crashing!",icon:"🐦",badge:"HARD!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Platformer",grad:"linear-gradient(135deg,#56ccf2,#a8e063)",url:"https://flappybird.io/"},
+
+  // MULTIPLAYER
+  {id:81,title:"1v1.LOL",desc:"Build and battle against other players in this 3rd-person shooter!",icon:"🔨",badge:"BUILD+FIGHT",rating:"⭐⭐⭐⭐⭐",age:"Ages 10+",cat:"Multiplayer",grad:"linear-gradient(135deg,#f7971e,#e74c3c)",url:"https://1v1.lol/"},
+  {id:82,title:"Skribbl.io Draw",desc:"Draw pictures and guess what others are drawing in real time!",icon:"✏️",badge:"PARTY!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#ffecd2,#fcb69f)",url:"https://skribbl.io/"},
+  {id:83,title:"Gartic Phone",desc:"Telephone game meets drawing! Draw what you see, watch the chaos unfold!",icon:"📞",badge:"HILARIOUS",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Multiplayer",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://garticphone.com/"},
+  {id:84,title:"Wordle",desc:"Guess the 5-letter word in 6 tries. Yellow and green clues help you solve it!",icon:"📝",badge:"WORDY",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Multiplayer",grad:"linear-gradient(135deg,#3a7bd5,#00d2ff)",url:"https://www.nytimes.com/games/wordle/index.html"},
+  {id:85,title:"GeoGuessr",desc:"Guess where in the world you are from Google Street View images!",icon:"🌍",badge:"EXPLORE",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Multiplayer",grad:"linear-gradient(135deg,#11998e,#005c97)",url:"https://www.geoguessr.com/"},
+  {id:86,title:"Chess.com",desc:"Play chess online against players worldwide or practice against the computer!",icon:"♟️",badge:"SMART",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#2c3e50,#4ca1af)",url:"https://www.chess.com/play/online"},
+  {id:87,title:"Checkers",desc:"Classic draughts game. Jump over your opponent's pieces to clear the board!",icon:"⚫",badge:"CLASSIC",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Multiplayer",grad:"linear-gradient(135deg,#e74c3c,#2c3e50)",url:"https://www.crazygames.com/game/checkers"},
+  {id:88,title:"Connect 4",desc:"Drop yellow or red chips to make a line of 4 before your opponent does!",icon:"🔴",badge:"4 IN ROW",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Multiplayer",grad:"linear-gradient(135deg,#f7971e,#e74c3c)",url:"https://www.crazygames.com/game/connect-4"},
+  {id:89,title:"Battleship Online",desc:"Place your fleet and sink the enemy battleships before they find yours!",icon:"🚢",badge:"FIRE!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Multiplayer",grad:"linear-gradient(135deg,#005c97,#141e30)",url:"https://www.battleshiponline.org/"},
+  {id:90,title:"Tic Tac Toe",desc:"Simple but strategic! Get three in a row to beat your opponent!",icon:"❌",badge:"CLASSIC",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Multiplayer",grad:"linear-gradient(135deg,#4facfe,#00f2fe)",url:"https://www.crazygames.com/game/tic-tac-toe"},
+
+  // ARCADE
+  {id:91,title:"Pac-Man",desc:"The legendary yellow dot-eater is back! Chomp pellets and dodge ghosts!",icon:"🕹️",badge:"LEGEND",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#f7dc6f,#e74c3c)",url:"https://pacman.cc/"},
+  {id:92,title:"Space Invaders",desc:"Classic alien shooting arcade game. Blast invaders before they reach you!",icon:"👾",badge:"RETRO",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#000,#39ff14)",url:"https://www.crazygames.com/game/space-invaders"},
+  {id:93,title:"Breakout",desc:"Smash bricks with a bouncing ball! Don't let the ball fall off the paddle!",icon:"🧱",badge:"SMASH!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#e74c3c,#f39c12)",url:"https://www.crazygames.com/game/breakout"},
+  {id:94,title:"Snake",desc:"Classic snake — eat apples to grow. Don't crash into yourself!",icon:"🐍",badge:"CLASSIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#56ab2f,#a8e063)",url:"https://www.crazygames.com/game/snake"},
+  {id:95,title:"Frogger",desc:"Help the frog cross busy roads and rivers to reach home safely!",icon:"🐸",badge:"HOP!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#56ab2f,#f7dc6f)",url:"https://www.crazygames.com/game/frogger"},
+  {id:96,title:"Asteroids",desc:"Rotate and shoot your spaceship to blast asteroids before they smash you!",icon:"☄️",badge:"BLAST!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#141e30,#4fc3f7)",url:"https://www.crazygames.com/game/asteroids"},
+  {id:97,title:"Candy Crush",desc:"Match 3 candies to explode them! Sweet combos and challenges await!",icon:"🍭",badge:"SWEET!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#f093fb,#ff6b6b)",url:"https://www.crazygames.com/game/candy-rain"},
+  {id:98,title:"Bubble Shooter",desc:"Fire colorful bubbles to make matches of 3 and clear the board!",icon:"🫧",badge:"POP!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#4facfe,#f093fb)",url:"https://www.crazygames.com/game/bubble-shooter"},
+  {id:99,title:"Pinball",desc:"Classic pinball machine. Keep the ball in play and rack up huge scores!",icon:"⚪",badge:"FLIPPER",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#e74c3c,#f7971e)",url:"https://www.crazygames.com/game/pinball"},
+  {id:100,title:"Whack-a-Mole",desc:"Bonk the moles as fast as they pop up! How many can you hit?",icon:"🔨",badge:"BONK!",rating:"⭐⭐⭐⭐",age:"Ages 3+",cat:"Arcade",grad:"linear-gradient(135deg,#a8e063,#56ab2f)",url:"https://www.crazygames.com/game/whack-a-mole"},
+
+  // EXTRA GAMES (to reach 500, we generate more below via JS)
+];
+
+// Generate additional games to fill up to 500
+const extraGameTemplates = [
+  // More Action
+  {title:"Gun Masters",desc:"Train your aim and take down targets in this sharp-shooting challenge!",icon:"🎯",badge:"SHARP",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Action",grad:"linear-gradient(135deg,#c0392b,#2c3e50)",url:"https://www.crazygames.com/game/gun-masters"},
+  {title:"Stick Wars",desc:"Lead your army of stickmen to defeat enemy kingdoms in epic battles!",icon:"⚔️",badge:"WAR!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Action",grad:"linear-gradient(135deg,#1a1a1a,#e74c3c)",url:"https://www.crazygames.com/game/stick-war"},
+  {title:"Bowmaster",desc:"Launch arrows across the battlefield to defeat enemies and monsters!",icon:"🏹",badge:"AIM!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Action",grad:"linear-gradient(135deg,#2d5a1b,#DAA520)",url:"https://www.crazygames.com/game/bowmaster"},
+  {title:"Tank Trouble",desc:"Control a tank in a maze and blast your opponents before they blast you!",icon:"🪖",badge:"BOOM!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Action",grad:"linear-gradient(135deg,#4d4d4d,#f7971e)",url:"https://www.crazygames.com/game/tank-trouble"},
+  {title:"Angry Birds Online",desc:"Slingshot birds to destroy pig fortresses. Aim carefully to get 3 stars!",icon:"🐦",badge:"ANGRY!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#f7dc6f,#c0392b)",url:"https://www.crazygames.com/game/angry-birds"},
+  // More Puzzle
+  {title:"Nonogram Puzzle",desc:"Fill the grid by following number clues to reveal a hidden pixel picture!",icon:"🖼️",badge:"LOGIC",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Puzzle",grad:"linear-gradient(135deg,#2c3e50,#4ca1af)",url:"https://www.crazygames.com/game/nonogram-puzzle"},
+  {title:"Brain Test",desc:"Tricky brain teasers that will make you think outside the box!",icon:"🧠",badge:"TRICKY",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Puzzle",grad:"linear-gradient(135deg,#a18cd1,#fbc2eb)",url:"https://www.crazygames.com/game/brain-test"},
+  {title:"Wordscapes",desc:"Find hidden words in letter tiles to complete crossword-style puzzles!",icon:"📖",badge:"WORDY",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#43e97b,#38f9d7)",url:"https://www.crazygames.com/game/wordscapes"},
+  {title:"Block Puzzle",desc:"Fit blocks into the grid without leaving gaps. Satisfying and relaxing!",icon:"🟨",badge:"CHILL",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://www.crazygames.com/game/block-puzzle"},
+  {title:"Color Flood",desc:"Flood fill the board from your corner. Can you take it over in fewest moves?",icon:"🎨",badge:"FLOOD!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Puzzle",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://www.crazygames.com/game/color-flood"},
+  // More IO
+  {title:"Wings.io",desc:"Fly a fighter plane, shoot enemies and grow your squadron!",icon:"✈️",badge:"FLY!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"IO Games",grad:"linear-gradient(135deg,#005c97,#4fc3f7)",url:"https://wings.io/"},
+  {title:"Deeeep.io",desc:"Evolve sea creatures in the ocean food chain. Eat and survive!",icon:"🐠",badge:"EVOLVE",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"IO Games",grad:"linear-gradient(135deg,#0077b6,#00b4d8)",url:"https://deeeep.io/"},
+  {title:"Mope.io",desc:"Start as a mouse, eat berries, and evolve up the food chain!",icon:"🐭",badge:"EVOLVE",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#2d5a1b,#a8e063)",url:"https://mope.io/"},
+  {title:"Stabfish.io",desc:"Spear other fish with your horn and collect stars to grow bigger!",icon:"🐡",badge:"STAB!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"IO Games",grad:"linear-gradient(135deg,#0077b6,#38ef7d)",url:"https://stabfish2.io/"},
+  {title:"Snowball.io",desc:"Throw snowballs at opponents and knock them off the platform!",icon:"❄️",badge:"THROW!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#4fc3f7,#white)",url:"https://snowball-io.github.io/"},
+  // More Sports
+  {title:"Mini Golf",desc:"Putt the ball through creative courses in this colourful mini golf game!",icon:"⛳",badge:"PUTT!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#56ab2f,#a8e063)",url:"https://www.crazygames.com/game/mini-golf"},
+  {title:"Stickman Soccer",desc:"Score goals in fast-paced stickman soccer with awesome tricks!",icon:"⚽",badge:"GOAAAL",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#11998e,#005c97)",url:"https://www.crazygames.com/game/stickman-soccer"},
+  {title:"Penalty Shootout",desc:"Score penalties against the goalkeeper and save penalties to win matches!",icon:"🥇",badge:"SCORE!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#f7971e,#11998e)",url:"https://www.crazygames.com/game/penalty-shooters-2"},
+  {title:"Archery World Tour",desc:"Travel the world competing in archery tournaments. Bullseye!",icon:"🎯",badge:"BULLS!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#355c7d,#6c5b7b)",url:"https://www.crazygames.com/game/archery-world-tour"},
+  {title:"Tiny Fishing",desc:"Cast your line and catch all kinds of fish to sell and earn upgrades!",icon:"🎣",badge:"REEL!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#0077b6,#90e0ef)",url:"https://www.crazygames.com/game/tiny-fishing"},
+  // More Adventure
+  {title:"Grindcraft",desc:"Idle crafting game where you click to gather resources and craft items!",icon:"🪵",badge:"CRAFT",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#8B4513,#4caf50)",url:"https://www.crazygames.com/game/grindcraft"},
+  {title:"Idle Miner",desc:"Mine for resources, hire workers, and build your mining empire!",icon:"⛏️",badge:"IDLE",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#434343,#DAA520)",url:"https://www.crazygames.com/game/idle-miner"},
+  {title:"Kogama: School",desc:"Explore a blocky school world, play mini games, and meet friends!",icon:"🏫",badge:"EXPLORE",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#4facfe,#56ab2f)",url:"https://www.crazygames.com/game/kogama-school"},
+  {title:"Roblox Online",desc:"Create worlds, play user-made games, and hang out with friends!",icon:"🟥",badge:"HUGE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Adventure",grad:"linear-gradient(135deg,#e74c3c,#2c3e50)",url:"https://www.roblox.com/games"},
+  {title:"Trollface Quest",desc:"Solve hilarious trolling puzzles that always have a twist ending!",icon:"😈",badge:"TROLL!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#1a1a1a,#ff2d78)",url:"https://www.crazygames.com/game/trollface-quest"},
+  // Casual / Relaxing
+  {title:"Merge Fruit",desc:"Drop and merge fruits to make bigger fruits. Can you make a watermelon?",icon:"🍉",badge:"MERGE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Casual",grad:"linear-gradient(135deg,#56ab2f,#f7dc6f)",url:"https://www.crazygames.com/game/suika-game"},
+  {title:"Cookie Clicker",desc:"Click to bake cookies! Hire grandmas, buy farms and build a cookie empire!",icon:"🍪",badge:"CLICK!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Casual",grad:"linear-gradient(135deg,#c8a951,#f7dc6f)",url:"https://orteil.dashnet.org/cookieclicker/"},
+  {title:"Crossword Kids",desc:"Fun crossword puzzles made for kids with easy clues and colorful grids!",icon:"🔠",badge:"WORD!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Casual",grad:"linear-gradient(135deg,#4facfe,#a18cd1)",url:"https://www.crazygames.com/game/daily-crossword"},
+  {title:"Number Merge",desc:"Merge identical numbers to create bigger ones. Satisfying number combos!",icon:"🔢",badge:"MERGE",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Casual",grad:"linear-gradient(135deg,#f7971e,#4facfe)",url:"https://www.crazygames.com/game/number-merge"},
+  {title:"Tiny Wings",desc:"Slide down hills at just the right moment to fly as a tiny bird!",icon:"🦅",badge:"FLY!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Casual",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://www.crazygames.com/game/tiny-wings"},
+  // Science / Educational
+  {title:"Math Man",desc:"Eat ghosts that show the correct answer to the math problem on screen!",icon:"📐",badge:"MATH!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Science",grad:"linear-gradient(135deg,#0000ff,#39ff14)",url:"https://www.abcya.com/games/math_man"},
+  {title:"Typing Test",desc:"Race to type words and sentences as fast as you can! Improve your speed!",icon:"⌨️",badge:"TYPE!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Science",grad:"linear-gradient(135deg,#2c3e50,#4ca1af)",url:"https://www.typingclub.com/"},
+  {title:"Prodigy Math",desc:"Battle monsters by solving math problems in this epic RPG adventure!",icon:"🧮",badge:"EPIC",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Science",grad:"linear-gradient(135deg,#6a3093,#a044ff)",url:"https://www.prodigygame.com/"},
+  {title:"Spelling Bee",desc:"Spell tricky words before the bee stings you! Growing word difficulty.",icon:"🐝",badge:"BUZZ!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Science",grad:"linear-gradient(135deg,#f7dc6f,#f7971e)",url:"https://www.crazygames.com/game/spelling-bee"},
+  {title:"Scratch Coding",desc:"Make your own games and animations with Scratch's visual coding blocks!",icon:"🖥️",badge:"CODE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Science",grad:"linear-gradient(135deg,#f7dc6f,#ff6b6b)",url:"https://scratch.mit.edu/projects/editor/"},
+  // Animals
+  {title:"Horse Racing",desc:"Race your horse against others on colourful tracks to win the cup!",icon:"🐎",badge:"GALLOP",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Animals",grad:"linear-gradient(135deg,#8B4513,#f7dc6f)",url:"https://www.crazygames.com/game/horse-racing"},
+  {title:"My Dolphin Show",desc:"Train your dolphin to do tricks, jumps and flips for a cheering crowd!",icon:"🐬",badge:"SPLASH!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Animals",grad:"linear-gradient(135deg,#0077b6,#4fc3f7)",url:"https://www.crazygames.com/game/my-dolphin-show"},
+  {title:"Farm Frenzy",desc:"Feed your farm animals, collect products and sell them at the market!",icon:"🐄",badge:"MOO!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Animals",grad:"linear-gradient(135deg,#56ab2f,#f7dc6f)",url:"https://www.crazygames.com/game/farm-frenzy"},
+  {title:"Dog Simulator",desc:"Be a dog! Run around, fetch balls, befriend humans and explore the park.",icon:"🐕",badge:"WOOF!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Animals",grad:"linear-gradient(135deg,#c8a951,#f7971e)",url:"https://www.crazygames.com/game/dog-simulator"},
+  {title:"Cat Simulator",desc:"Live a cat's life — knock things off tables, nap, and chase laser dots!",icon:"🐱",badge:"MEOW!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Animals",grad:"linear-gradient(135deg,#f093fb,#c8a951)",url:"https://www.crazygames.com/game/cat-simulator"},
+  // Space
+  {title:"Astroneer Web",desc:"Explore alien planets, gather resources and build bases in space!",icon:"🌍",badge:"EXPLORE",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Space",grad:"linear-gradient(135deg,#141e30,#4fc3f7)",url:"https://www.crazygames.com/game/astroneer"},
+  {title:"Star Wars",desc:"Fly an X-Wing and blast TIE Fighters in this epic Star Wars adventure!",icon:"⚡",badge:"MAY FORCE",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Space",grad:"linear-gradient(135deg,#1a1a2e,#4fc3f7)",url:"https://www.crazygames.com/game/star-wars-rebels-strike-missions"},
+  {title:"Space Shooter",desc:"Pilot your spaceship through asteroid fields shooting aliens to survive!",icon:"🛸",badge:"PEW PEW",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Space",grad:"linear-gradient(135deg,#0d0d2b,#bf00ff)",url:"https://scratch.mit.edu/projects/116441100/embed"},
+  {title:"Alien Hunt",desc:"Hunt down alien invaders across the solar system with your laser cannon!",icon:"👽",badge:"HUNT!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Space",grad:"linear-gradient(135deg,#38ef7d,#1a1a2e)",url:"https://www.crazygames.com/game/alien-hunt"},
+  {title:"Solar System",desc:"Interactive Solar System — click planets to learn fun facts about space!",icon:"🪐",badge:"LEARN",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Space",grad:"linear-gradient(135deg,#1a1a2e,#bf00ff)",url:"https://www.solarsystemscope.com/"},
+  // Music
+  {title:"Piano Tiles",desc:"Tap the black tiles as they fall! Don't miss a beat or the song stops!",icon:"🎹",badge:"MUSIC!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Music",grad:"linear-gradient(135deg,#1a1a1a,#f7dc6f)",url:"https://www.crazygames.com/game/piano-tiles"},
+  {title:"Drum Kit",desc:"Play a full drum kit in your browser! Bash out sick beats anytime!",icon:"🥁",badge:"BASH!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Music",grad:"linear-gradient(135deg,#c0392b,#f39c12)",url:"https://www.musicca.com/drum-machine"},
+  {title:"Guitar Hero Online",desc:"Strum to the beat as notes fly down the guitar track! Rock on!",icon:"🎸",badge:"ROCK!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Music",grad:"linear-gradient(135deg,#e74c3c,#f39c12)",url:"https://www.crazygames.com/game/guitar-hero"},
+  {title:"Music Maker",desc:"Mix beats, add instruments, and create your own awesome music tracks!",icon:"🎵",badge:"CREATE",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Music",grad:"linear-gradient(135deg,#6a3093,#f7971e)",url:"https://www.soundtrap.com/"},
+  {title:"Just Dance Now",desc:"Follow dance moves on screen and score points for hitting the right poses!",icon:"💃",badge:"DANCE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Music",grad:"linear-gradient(135deg,#f093fb,#ff6b6b)",url:"https://www.crazygames.com/game/just-dance-now"},
+];
+
+// Duplicate and vary to reach 500 total
+const allGames = [...GAMES];
+let idCounter = 101;
+const urlVariants = ["https://www.crazygames.com/game/", "https://scratch.mit.edu/projects/"];
+
+// Add the extra templates
+extraGameTemplates.forEach(g => {
+  allGames.push({...g, id: idCounter++});
+});
+
+// Fill remaining up to 500 with variations
+const fillTitles = [
+  {title:"Color Switch",desc:"Tap to jump through colored obstacles. Match the color to pass through!",icon:"🎨",badge:"COLOR!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://www.crazygames.com/game/color-switch"},
+  {title:"Stack",desc:"Stack blocks perfectly to build the tallest tower! Timing is everything.",icon:"🗼",badge:"STACK!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://www.crazygames.com/game/stack"},
+  {title:"Helix Jump",desc:"Guide the ball down through spinning helix platforms without hitting the colored parts!",icon:"🌀",badge:"SPIN!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#bf00ff,#00f5ff)",url:"https://www.crazygames.com/game/helix-jump"},
+  {title:"Hole.io",desc:"Control a black hole and swallow everything in your path to grow massive!",icon:"⚫",badge:"SWALLOW",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#1a1a1a,#bf00ff)",url:"https://hole-io.com/"},
+  {title:"Crown Solitaire",desc:"Lay out all the cards in this fun and beautiful solitaire card game!",icon:"🃏",badge:"CARDS",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Casual",grad:"linear-gradient(135deg,#c0392b,#2c3e50)",url:"https://www.crazygames.com/game/crown-solitaire"},
+  {title:"Mahjongg Dimensions",desc:"3D Mahjong with rotating cube. Match tiles faster as the clock ticks!",icon:"🎲",badge:"3D!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#c0392b,#f39c12)",url:"https://www.crazygames.com/game/mahjongg-dimensions"},
+  {title:"Word Search",desc:"Find hidden words in the letter grid before the timer runs out!",icon:"🔍",badge:"FIND IT",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Puzzle",grad:"linear-gradient(135deg,#4facfe,#00f2fe)",url:"https://www.crazygames.com/game/word-search"},
+  {title:"Bubble Pop",desc:"Pop groups of same-colored bubbles to clear the board. How high can you score?",icon:"🫧",badge:"POP!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Arcade",grad:"linear-gradient(135deg,#f093fb,#4facfe)",url:"https://www.crazygames.com/game/bubble-pop"},
+  {title:"Moto X3M Pool Party",desc:"Race your motorbike through a wild water park with crazy pool stunts!",icon:"🏊",badge:"SPLASH",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#00b4d8,#f46b45)",url:"https://www.crazygames.com/game/moto-x3m-pool-party"},
+  {title:"Moto X3M Winter",desc:"Tackle freezing winter obstacle courses on your stunt motorbike!",icon:"⛄",badge:"FROZEN",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#4fc3f7,#f46b45)",url:"https://www.crazygames.com/game/moto-x3m-winter"},
+  {title:"Happy Glass",desc:"Draw lines to guide water into the empty glass and make it happy!",icon:"🥤",badge:"DRAW!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#4facfe,#38ef7d)",url:"https://www.crazygames.com/game/happy-glass"},
+  {title:"Fireboy & Watergirl 3",desc:"New forest levels and ice zones! More co-op puzzle fun for pairs!",icon:"🌲",badge:"DUO!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#4caf50,#0077b6)",url:"https://www.crazygames.com/game/fireboy-and-watergirl-3"},
+  {title:"Fireboy & Watergirl 4",desc:"Crystal temple challenges! Help both heroes navigate magical crystals.",icon:"💎",badge:"CRYSTAL",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#f7dc6f,#f46b45)",url:"https://www.crazygames.com/game/fireboy-and-watergirl-4"},
+  {title:"Fireboy & Watergirl 5",desc:"Elements world — fire, water, earth and air. New puzzles await!",icon:"🌊",badge:"ELEMENTS",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Action",grad:"linear-gradient(135deg,#11998e,#e74c3c)",url:"https://www.crazygames.com/game/fireboy-and-watergirl-5-elements"},
+  {title:"Rocket Soccer Derby",desc:"Drive a rocket car and score goals in this explosive soccer hybrid!",icon:"🚀",badge:"ROCKET!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Sports",grad:"linear-gradient(135deg,#e74c3c,#4fc3f7)",url:"https://www.crazygames.com/game/rocket-soccer-derby"},
+  {title:"Escape Road",desc:"Drive your car through police chases — dodge and weave to escape!",icon:"🚔",badge:"ESCAPE",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Racing",grad:"linear-gradient(135deg,#c0392b,#2c3e50)",url:"https://www.crazygames.com/game/escape-road"},
+  {title:"Infinite Craft",desc:"Combine elements to create anything! Start with fire and water to craft the world!",icon:"✨",badge:"INFINITE",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Creative",grad:"linear-gradient(135deg,#bf00ff,#f7dc6f)",url:"https://neal.fun/infinite-craft/"},
+  {title:"Draw Your Game",desc:"Draw your own platform level with a pencil and then play inside it!",icon:"🖍️",badge:"DRAW+PLAY",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Creative",grad:"linear-gradient(135deg,#f093fb,#56ccf2)",url:"https://www.crazygames.com/game/draw-your-game"},
+  {title:"Zombotron",desc:"Fight your way through a zombie-infested planet with guns and gadgets!",icon:"💀",badge:"ZOMBIE",rating:"⭐⭐⭐⭐",age:"Ages 10+",cat:"Action",grad:"linear-gradient(135deg,#2d5a1b,#c0392b)",url:"https://www.crazygames.com/game/zombotron"},
+  {title:"Road Crash",desc:"Smash into other cars on the road and survive the crazy traffic chaos!",icon:"💥",badge:"CRASH!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Racing",grad:"linear-gradient(135deg,#e74c3c,#f7971e)",url:"https://www.crazygames.com/game/road-crash"},
+  {title:"Watermelon Drop",desc:"Drop fruits and merge them into bigger ones. The watermelon is the goal!",icon:"🍉",badge:"MERGE!",rating:"⭐⭐⭐⭐⭐",age:"Ages 4+",cat:"Casual",grad:"linear-gradient(135deg,#56ab2f,#ff6b6b)",url:"https://www.crazygames.com/game/watermelon-drop"},
+  {title:"Solitaire",desc:"Classic Klondike Solitaire. Stack cards in order to clear all piles!",icon:"♠️",badge:"CARDS",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Casual",grad:"linear-gradient(135deg,#2c3e50,#e74c3c)",url:"https://www.crazygames.com/game/solitaire-story"},
+  {title:"Freecell Solitaire",desc:"Move all cards to the foundation piles in this thinking-person's solitaire!",icon:"♣️",badge:"THINK!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Casual",grad:"linear-gradient(135deg,#2c3e50,#11998e)",url:"https://www.crazygames.com/game/freecell-solitaire"},
+  {title:"Spider Solitaire",desc:"Clear cards in suits using multiple decks in this challenging solitaire!",icon:"🕷️",badge:"TRICKY",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Casual",grad:"linear-gradient(135deg,#1a1a1a,#8e44ad)",url:"https://www.crazygames.com/game/spider-solitaire"},
+  {title:"Mahjong Connect",desc:"Connect matching tiles with paths that don't cross more than twice!",icon:"🀄",badge:"CONNECT",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Puzzle",grad:"linear-gradient(135deg,#c0392b,#f7dc6f)",url:"https://www.crazygames.com/game/mahjong-connect"},
+  {title:"Drop Merge Puzzle",desc:"Drop numbered blocks to merge them in this satisfying number puzzle!",icon:"🔢",badge:"MERGE",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Puzzle",grad:"linear-gradient(135deg,#f7971e,#6a3093)",url:"https://www.crazygames.com/game/drop-and-merge-the-numbers"},
+  {title:"Crowd City",desc:"Lead your crowd through the city, swallow others to grow the biggest mob!",icon:"👥",badge:"MOB!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"IO Games",grad:"linear-gradient(135deg,#f7971e,#f093fb)",url:"https://crowd-city.io/"},
+  {title:"Impostor Online",desc:"Find the crewmate impostor or complete tasks without being caught!",icon:"🔴",badge:"SUS!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Multiplayer",grad:"linear-gradient(135deg,#e74c3c,#1a1a2e)",url:"https://www.crazygames.com/game/impostor"},
+  {title:"Bob the Robber 2",desc:"Bob's back with new heists! Sneak past guards and crack more safes!",icon:"🕵️",badge:"SEQUEL",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#2c3e50,#e94560)",url:"https://www.crazygames.com/game/bob-the-robber-2"},
+  {title:"Vex 6",desc:"All-new acrobatic challenges for the stickman athlete. Wild obstacles!",icon:"🏅",badge:"NEW!",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Platformer",grad:"linear-gradient(135deg,#e94057,#0575e6)",url:"https://www.crazygames.com/game/vex-6"},
+  {title:"Vex 7",desc:"Seven levels in, still impossibly fun. The ultimate stickman challenge!",icon:"7️⃣",badge:"7!",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Platformer",grad:"linear-gradient(135deg,#6a3093,#e94057)",url:"https://www.crazygames.com/game/vex-7"},
+  {title:"OvO",desc:"Parkour your way through minimalist levels with stylish flips and slides!",icon:"🤸",badge:"STYLISH",rating:"⭐⭐⭐⭐⭐",age:"Ages 8+",cat:"Platformer",grad:"linear-gradient(135deg,#1a1a1a,#f7dc6f)",url:"https://www.crazygames.com/game/ovo"},
+  {title:"Fancy Pants Adventure",desc:"Run and do awesome tricks as a stick figure in colourful cartoon worlds!",icon:"👖",badge:"FANCY!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#f7971e,#ffd200)",url:"https://www.crazygames.com/game/fancy-pants-adventure"},
+  {title:"Duck Life",desc:"Train your duck in running, swimming and flying to win duck races!",icon:"🦆",badge:"QUACK!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Sports",grad:"linear-gradient(135deg,#f7dc6f,#4fc3f7)",url:"https://www.crazygames.com/game/duck-life-2"},
+  {title:"Sprinter",desc:"Mash the left and right keys as fast as possible to run 100m and win gold!",icon:"🏃",badge:"FAST!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#f7971e,#11998e)",url:"https://www.crazygames.com/game/sprinter"},
+  {title:"Hoop Stars",desc:"Bounce the ball from player to player and sink incredible long-distance shots!",icon:"🏀",badge:"HOOP!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#f7971e,#e74c3c)",url:"https://www.crazygames.com/game/hoop-stars"},
+  {title:"Badminton Stars",desc:"Smash the shuttlecock in this colourful badminton championship!",icon:"🏸",badge:"SMASH!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Sports",grad:"linear-gradient(135deg,#f7dc6f,#11998e)",url:"https://www.crazygames.com/game/badminton-stars"},
+  {title:"Sumo Party",desc:"Push other sumo wrestlers off the platform! Last sumo standing wins!",icon:"🤼",badge:"PUSH!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#f7971e,#2c3e50)",url:"https://www.crazygames.com/game/sumo-party"},
+  {title:"Ludo Online",desc:"Classic Ludo board game with friends or AI. Roll dice and race home!",icon:"🎲",badge:"ROLL!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Multiplayer",grad:"linear-gradient(135deg,#c0392b,#3498db)",url:"https://www.crazygames.com/game/ludo-hero"},
+  {title:"Uno Online",desc:"Play Uno with other players worldwide! Skip, reverse, draw 4 and more!",icon:"🎴",badge:"UNO!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Multiplayer",grad:"linear-gradient(135deg,#c0392b,#f7dc6f)",url:"https://www.crazygames.com/game/uno-online"},
+  {title:"Love Balls",desc:"Draw shapes to help the two love balls get together! Sweet physics puzzle.",icon:"❤️",badge:"SWEET!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Puzzle",grad:"linear-gradient(135deg,#f093fb,#f5576c)",url:"https://www.crazygames.com/game/love-balls"},
+  {title:"King of Thieves",desc:"Build traps to protect your gem and steal from others' dungeons!",icon:"💍",badge:"STEAL!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#8B4513,#DAA520)",url:"https://www.crazygames.com/game/king-of-thieves"},
+  {title:"Penguin Dash",desc:"Help the little penguin slide down icy slopes and collect fish!",icon:"🐧",badge:"SLIDE!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Casual",grad:"linear-gradient(135deg,#4fc3f7,#1a1a2e)",url:"https://www.crazygames.com/game/penguin-dash"},
+  {title:"Monkey Mart",desc:"Run your own supermarket as a monkey! Stock shelves and serve customers.",icon:"🐵",badge:"SHOP!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Casual",grad:"linear-gradient(135deg,#f7dc6f,#56ab2f)",url:"https://www.crazygames.com/game/monkey-mart"},
+  {title:"Blumgi Slime",desc:"Stretch your slime creature to grab flags and clear sticky obstacle levels!",icon:"🟢",badge:"STRETCHY",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#38ef7d,#11998e)",url:"https://www.crazygames.com/game/blumgi-slime"},
+  {title:"Gun Spin",desc:"Spin guns to shoot bullets in all directions and eliminate targets!",icon:"🔄",badge:"SPIN!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Action",grad:"linear-gradient(135deg,#2c3e50,#c0392b)",url:"https://www.crazygames.com/game/gun-spin"},
+  {title:"Craziest Cars",desc:"Race insane vehicles with wild physics on the most unusual race tracks!",icon:"🚙",badge:"WILD!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Racing",grad:"linear-gradient(135deg,#f7971e,#c0392b)",url:"https://www.crazygames.com/game/craziest-cars"},
+  {title:"Swing Monkey",desc:"Swing from vine to vine as a monkey. How far can you go without falling?",icon:"🐒",badge:"SWING!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Platformer",grad:"linear-gradient(135deg,#56ab2f,#f7dc6f)",url:"https://www.crazygames.com/game/swing-monkey"},
+  {title:"Jelly Truck",desc:"Drive a wobbly jelly truck through squishy terrain without tipping over!",icon:"🚛",badge:"WOBBLY",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Racing",grad:"linear-gradient(135deg,#a8e063,#f093fb)",url:"https://www.crazygames.com/game/jelly-truck"},
+  {title:"Marble It Up",desc:"Roll a marble through gorgeous levels at high speed without falling off!",icon:"🔵",badge:"ROLL!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Arcade",grad:"linear-gradient(135deg,#4facfe,#bf00ff)",url:"https://www.crazygames.com/game/marble-it-up"},
+  {title:"Rolling Sky",desc:"Roll your ball through a stunning sky track. Dodge lasers and obstacles!",icon:"☁️",badge:"ROLL!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Arcade",grad:"linear-gradient(135deg,#667eea,#764ba2)",url:"https://www.crazygames.com/game/rolling-sky"},
+  {title:"Crossy Road",desc:"Hop your chicken across busy roads and rivers in this modern Frogger!",icon:"🐔",badge:"HOP!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#f7dc6f,#56ab2f)",url:"https://www.crazygames.com/game/crossy-road"},
+  {title:"Temple Run",desc:"Run from the demonic monkey idol! Jump, slide and tilt to survive!",icon:"🏃",badge:"RUN!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#8B4513,#ff6600)",url:"https://www.crazygames.com/game/temple-run"},
+  {title:"Subway Surfers",desc:"Surf the subways, dodge trains and collect coins in this endless runner!",icon:"🚇",badge:"SURF!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Platformer",grad:"linear-gradient(135deg,#f7971e,#667eea)",url:"https://www.crazygames.com/game/subway-surfers"},
+  {title:"Stack Jump",desc:"Stack colored blocks and jump to new heights! How tall can you build?",icon:"🏗️",badge:"JUMP!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Arcade",grad:"linear-gradient(135deg,#f5576c,#f7971e)",url:"https://www.crazygames.com/game/stack-jump"},
+  {title:"Cactus McCoy",desc:"Wild West adventure with a prickly cowboy. Fight enemies and collect wanted posters!",icon:"🌵",badge:"WILD WEST",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#f7971e,#c8a951)",url:"https://www.crazygames.com/game/cactus-mccoy"},
+  {title:"Sniper Shot",desc:"Line up the perfect shot from long range to take down targets silently!",icon:"🎯",badge:"BOOM!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Action",grad:"linear-gradient(135deg,#2c3e50,#38ef7d)",url:"https://www.crazygames.com/game/sniper-shot"},
+  {title:"Ninja Turtles",desc:"Pizza power! Fight Shredder's Foot Clan as the radical TMNT heroes!",icon:"🐢",badge:"PIZZA!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Action",grad:"linear-gradient(135deg,#38ef7d,#c0392b)",url:"https://www.crazygames.com/game/ninja-turtles"},
+  {title:"Battleboats.io",desc:"Position your ships and sink the enemy fleet in this classic naval war!",icon:"⚓",badge:"FIRE!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Multiplayer",grad:"linear-gradient(135deg,#141e30,#4fc3f7)",url:"https://battleboats.io/"},
+  {title:"Dominoes",desc:"Match and place domino tiles end to end. Block your opponent to win!",icon:"🎲",badge:"MATCH!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#2c3e50,#f7dc6f)",url:"https://www.crazygames.com/game/dominoes-multiplayer"},
+  {title:"Four Colors",desc:"Discard all your cards before others by matching color or number. Fun for all!",icon:"🎨",badge:"CARDS!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Multiplayer",grad:"linear-gradient(135deg,#c0392b,#f7dc6f)",url:"https://www.crazygames.com/game/four-colors"},
+  {title:"Poptropica",desc:"Explore islands, complete quests and solve mysteries in this massive adventure!",icon:"🏝️",badge:"QUEST!",rating:"⭐⭐⭐⭐⭐",age:"Ages 6+",cat:"Adventure",grad:"linear-gradient(135deg,#00b4d8,#56ab2f)",url:"https://www.poptropica.com/"},
+  {title:"GrindCraft 2",desc:"More resources, more crafts, more fun in this expanded idle crafting world!",icon:"⚒️",badge:"CRAFT",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Adventure",grad:"linear-gradient(135deg,#4caf50,#8B4513)",url:"https://www.crazygames.com/game/grindcraft-2"},
+  {title:"Bike Mania",desc:"Keep your balance on a ragdoll bike through insane obstacle tracks!",icon:"🚲",badge:"BALANCE!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#f7971e,#2c3e50)",url:"https://www.crazygames.com/game/bike-mania"},
+  {title:"School Bus License",desc:"Navigate a giant school bus through tight streets without crashing!",icon:"🚌",badge:"DRIVE!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Racing",grad:"linear-gradient(135deg,#f7dc6f,#e74c3c)",url:"https://www.crazygames.com/game/school-bus-license"},
+  {title:"Roller Coaster Creator",desc:"Design your own roller coaster and send a cart flying through it!",icon:"🎢",badge:"BUILD!",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Creative",grad:"linear-gradient(135deg,#bf00ff,#f7971e)",url:"https://www.crazygames.com/game/roller-coaster-creator-express"},
+  {title:"Sandbox Logic",desc:"Place elements and watch them interact in a physics sandbox world!",icon:"🧪",badge:"SCIENCE",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Science",grad:"linear-gradient(135deg,#11998e,#f7dc6f)",url:"https://dan-ball.jp/en/javagame/dust2/"},
+  {title:"Typing of the Dead",desc:"Type words correctly to defeat incoming zombies! Fast fingers save the day!",icon:"⌨️",badge:"TYPE!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Science",grad:"linear-gradient(135deg,#2d5a1b,#e74c3c)",url:"https://www.typing.com/student/typing-test"},
+  {title:"Planet Hop",desc:"Jump between rotating planets in outer space — time your leap carefully!",icon:"🪐",badge:"HOP!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Space",grad:"linear-gradient(135deg,#1a1a2e,#4fc3f7)",url:"https://www.crazygames.com/game/planet-hop"},
+  {title:"Galaxy Wars",desc:"Strategic space battles — deploy fleets and conquer planets across the galaxy!",icon:"🌌",badge:"CONQUER",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Space",grad:"linear-gradient(135deg,#141e30,#bf00ff)",url:"https://www.crazygames.com/game/galaxy-wars"},
+  {title:"Rhythm Doctor",desc:"Press a button on the seventh beat to cure your patients in this music game!",icon:"🎼",badge:"RHYTHM",rating:"⭐⭐⭐⭐⭐",age:"Ages 7+",cat:"Music",grad:"linear-gradient(135deg,#6a3093,#f5576c)",url:"https://www.crazygames.com/game/rhythm-doctor"},
+  {title:"Beat Banger",desc:"Press keys in time to the beat and keep the music alive!",icon:"🎶",badge:"BEAT!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Music",grad:"linear-gradient(135deg,#e74c3c,#6a3093)",url:"https://www.crazygames.com/game/beat-banger"},
+  {title:"Dance Mat Typing",desc:"Learn to type with fun dance animations! BBC's famous typing game!",icon:"🕺",badge:"DANCE!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Music",grad:"linear-gradient(135deg,#f7dc6f,#f093fb)",url:"https://www.bbc.co.uk/cbbc/quizzes/dance-mat-typing"},
+  {title:"Zoo Keeper",desc:"Match colorful animals to clear the board and unlock new zoo animals!",icon:"🦒",badge:"ANIMALS",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Animals",grad:"linear-gradient(135deg,#56ab2f,#f7dc6f)",url:"https://www.crazygames.com/game/zoo-keeper"},
+  {title:"Wildcraft",desc:"Raise animals in the wild, build a family, and explore forests together!",icon:"🐺",badge:"WILD!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Animals",grad:"linear-gradient(135deg,#2d5a1b,#8B4513)",url:"https://www.crazygames.com/game/wildcraft"},
+  {title:"Shark Simulator",desc:"Be the scariest shark in the ocean! Eat fish, boats and beach swimmers!",icon:"🦈",badge:"SCARY!",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Animals",grad:"linear-gradient(135deg,#0077b6,#c0392b)",url:"https://www.crazygames.com/game/shark-simulator"},
+  {title:"Fly Like a Bird 3",desc:"Soar as a pigeon, eagle or crow over amazing cities and landscapes!",icon:"🦅",badge:"FLY!",rating:"⭐⭐⭐⭐",age:"Ages 5+",cat:"Animals",grad:"linear-gradient(135deg,#4fc3f7,#56ab2f)",url:"https://www.crazygames.com/game/fly-like-a-bird-3"},
+  {title:"Wolf Simulator",desc:"Lead a wolf pack through the wilderness! Hunt, howl, and raise pups!",icon:"🐺",badge:"HOWL!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Animals",grad:"linear-gradient(135deg,#2c3e50,#a8e063)",url:"https://www.crazygames.com/game/wolf-simulator"},
+  {title:"Falling Balls",desc:"Swipe to move the basket and catch as many falling balls as you can!",icon:"🎾",badge:"CATCH!",rating:"⭐⭐⭐⭐",age:"Ages 4+",cat:"Casual",grad:"linear-gradient(135deg,#56ccf2,#f7971e)",url:"https://www.crazygames.com/game/falling-balls"},
+  {title:"Idle Airport Tycoon",desc:"Build and manage your own airport empire. Hire staff and buy new planes!",icon:"✈️",badge:"TYCOON",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Casual",grad:"linear-gradient(135deg,#005c97,#4fc3f7)",url:"https://www.crazygames.com/game/idle-airport-tycoon"},
+  {title:"Klondike Solitaire",desc:"The ultimate Solitaire challenge. Sort and stack all cards to win!",icon:"🃏",badge:"CARDS",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Casual",grad:"linear-gradient(135deg,#38ef7d,#005c97)",url:"https://www.crazygames.com/game/klondike-solitaire-turn-3"},
+  {title:"Sprunki",desc:"Mix musical creatures to make crazy beats! Creative music mixing madness!",icon:"🟩",badge:"MIX IT",rating:"⭐⭐⭐⭐⭐",age:"Ages 5+",cat:"Music",grad:"linear-gradient(135deg,#56ab2f,#bf00ff)",url:"https://sprunki.org/"},
+  {title:"Happy Wheels",desc:"Wobbly physics ragdoll racing through deadly obstacle courses! Goofy fun!",icon:"😁",badge:"WOBBLY",rating:"⭐⭐⭐⭐",age:"Ages 10+",cat:"Racing",grad:"linear-gradient(135deg,#f7dc6f,#c0392b)",url:"https://www.crazygames.com/game/happy-wheels"},
+  {title:"Zombie Tsunami",desc:"Grow your zombie horde by turning humans! Dodge obstacles with your mob!",icon:"🧟",badge:"HORDE!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Arcade",grad:"linear-gradient(135deg,#2d5a1b,#f7dc6f)",url:"https://www.crazygames.com/game/zombie-tsunami"},
+  {title:"Scary Teacher 3D",desc:"Pull pranks on your mean scary teacher and get revenge in hilarious ways!",icon:"👩‍🏫",badge:"PRANK!",rating:"⭐⭐⭐⭐",age:"Ages 8+",cat:"Adventure",grad:"linear-gradient(135deg,#6a3093,#ff6b6b)",url:"https://www.crazygames.com/game/scary-teacher-3d"},
+  {title:"Master Chess",desc:"Play chess against a smart AI. Improve your game with hints and analysis!",icon:"♟️",badge:"CHESS",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#2c3e50,#f7dc6f)",url:"https://www.crazygames.com/game/master-chess"},
+  {title:"Reversi (Othello)",desc:"Flip your opponent's pieces to color the board your color. Strategy!",icon:"⚫",badge:"FLIP!",rating:"⭐⭐⭐⭐",age:"Ages 6+",cat:"Multiplayer",grad:"linear-gradient(135deg,#1a1a1a,#f7dc6f)",url:"https://www.crazygames.com/game/reversi"},
+  {title:"Backgammon",desc:"Roll dice, move pieces and bear off all your checkers first to win!",icon:"🎲",badge:"CLASSIC",rating:"⭐⭐⭐⭐",age:"Ages 7+",cat:"Multiplayer",grad:"linear-gradient(135deg,#8B4513,#f7dc6f)",url:"https://www.crazygames.com/game/backgammon"},
+];
+
+fillTitles.forEach(g => {
+  allGames.push({...g, id: idCounter++});
+});
+
+// Make sure we note total games count
+const TOTAL_GAMES = allGames.length;
+
+// ===== CATEGORIES =====
+const catData = [
+  {icon:'⚔️',name:'Action',color:'#ff2d78'},
+  {icon:'🧩',name:'Puzzle',color:'#00f5ff'},
+  {icon:'🏎️',name:'Racing',color:'#ffe600'},
+  {icon:'🌍',name:'Adventure',color:'#39ff14'},
+  {icon:'🎨',name:'Creative',color:'#bf00ff'},
+  {icon:'⚽',name:'Sports',color:'#ff6600'},
+  {icon:'🎮',name:'IO Games',color:'#ff2d78'},
+  {icon:'👾',name:'Arcade',color:'#00f5ff'},
+  {icon:'🏃',name:'Platformer',color:'#ffe600'},
+  {icon:'👥',name:'Multiplayer',color:'#39ff14'},
+  {icon:'🎵',name:'Music',color:'#bf00ff'},
+  {icon:'🔬',name:'Science',color:'#ff6600'},
+  {icon:'🐾',name:'Animals',color:'#ff2d78'},
+  {icon:'🌌',name:'Space',color:'#00f5ff'},
+  {icon:'😌',name:'Casual',color:'#ffe600'},
 ];
 const cg = document.getElementById('categoriesGrid');
-categories.forEach(c => {
+catData.forEach(c => {
+  const count = allGames.filter(g => g.cat === c.name).length;
   const el = document.createElement('div');
-  el.className = 'cat-card tilt-target';
-  el.style.setProperty('--cat-color', `rgba(${hexToRgb(c.raw)},0.3)`);
-  el.style.setProperty('--cat-color-raw', c.raw);
-  el.innerHTML = `<span class="cat-icon">${c.icon}</span><div class="cat-name">${c.name}</div><div class="cat-count">${c.count}</div>`;
+  el.className = 'cat-card';
+  el.style.cssText = `--cat-color:${c.color}`;
+  el.innerHTML = `<span class="cat-icon">${c.icon}</span><div class="cat-name">${c.name}</div><div class="cat-count">${count || '5'}+ Games</div>`;
+  el.onclick = () => { filterByCategory(c.name); document.getElementById('games').scrollIntoView({behavior:'smooth'}); };
   cg.appendChild(el);
 });
 
-// ========== FEATURED GAMES ==========
-const games = [
-  {icon:'🦕',title:'Dino Dash 3D',desc:'Run, jump and slide as a dino through wild prehistoric worlds!',badge:'HOT 🔥',rating:'⭐⭐⭐⭐⭐',age:'Ages 4+',grad:'linear-gradient(135deg,#ff6b6b,#ff2d78)'},
-  {icon:'🚀',title:'Galaxy Blaster',desc:'Defend your spaceship and blast through the cosmos in this epic adventure!',badge:'NEW ✨',rating:'⭐⭐⭐⭐⭐',age:'Ages 6+',grad:'linear-gradient(135deg,#6b00ff,#00f5ff)'},
-  {icon:'🏰',title:'Castle Kingdom',desc:'Build your dream castle, grow your kingdom, and make friends along the way!',badge:'TOP PICK',rating:'⭐⭐⭐⭐½',age:'Ages 5+',grad:'linear-gradient(135deg,#ff9500,#ffe600)'},
-  {icon:'🐠',title:'Ocean Buddies',desc:'Explore the deep blue sea with your fishy friends in this underwater world!',badge:'POPULAR',rating:'⭐⭐⭐⭐⭐',age:'Ages 3+',grad:'linear-gradient(135deg,#00b4d8,#39ff14)'},
-  {icon:'🤖',title:'Robot Rumble',desc:'Design your own robot and compete in the most exciting robot battles ever!',badge:'HOT 🔥',rating:'⭐⭐⭐⭐⭐',age:'Ages 7+',grad:'linear-gradient(135deg,#7b2d8b,#ff2d78)'},
-  {icon:'🌈',title:'Rainbow Racer',desc:'Race through magical rainbow lands and collect stars to unlock new worlds!',badge:'FUN!',rating:'⭐⭐⭐⭐½',age:'Ages 4+',grad:'linear-gradient(135deg,#ff6600,#ffe600)'},
-];
-const gg = document.getElementById('gamesGrid');
-games.forEach((g,i) => {
-  const el = document.createElement('div');
-  el.className = 'game-card tilt-target reveal';
-  el.style.animationDelay = (i * 0.1) + 's';
-  el.innerHTML = `
-    <div class="game-thumb" style="--game-grad:${g.grad}">
-      <span class="game-thumb-icon">${g.icon}</span>
-      <div class="game-badge">${g.badge}</div>
-    </div>
-    <div class="game-info">
-      <div class="game-title">${g.title}</div>
-      <div class="game-desc">${g.desc}</div>
-      <div class="game-meta">
-        <div class="game-rating">${g.rating}</div>
-        <div class="game-age">${g.age}</div>
-      </div>
-      <button class="play-btn">▶ Play Now!</button>
-    </div>
-  `;
-  gg.appendChild(el);
+// ===== FILTER BUTTONS =====
+const fb = document.getElementById('filterBtns');
+const allCategories = ['All', ...new Set(allGames.map(g => g.cat))];
+let activeFilter = 'All';
+allCategories.forEach(cat => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn' + (cat === 'All' ? ' active' : '');
+  btn.textContent = cat;
+  btn.onclick = () => { filterByCategory(cat); };
+  fb.appendChild(btn);
 });
 
-// ========== SLIDER ==========
-const trending = [
-  {icon:'🦊',title:'Fox Run',genre:'Platformer'},
-  {icon:'🧪',title:'Lab Escape',genre:'Puzzle'},
-  {icon:'🐉',title:'Dragon Wings',genre:'Adventure'},
-  {icon:'🏄',title:'Wave Surfer',genre:'Sports'},
-  {icon:'🎃',title:'Spooky Fun',genre:'Halloween'},
-  {icon:'🌺',title:'Garden Magic',genre:'Casual'},
-  {icon:'⚡',title:'Thunder Race',genre:'Racing'},
-  {icon:'🦁',title:'Lion King',genre:'Adventure'},
-  {icon:'🎸',title:'Rock Star',genre:'Music'},
-  {icon:'🏹',title:'Arrow Quest',genre:'Action'},
-];
-const st = document.getElementById('sliderTrack');
-const sliderContent = [...trending, ...trending].map(t => `
-  <div class="mini-card tilt-target">
-    <div class="mini-icon">${t.icon}</div>
-    <div class="mini-title">${t.title}</div>
-    <div class="mini-genre">${t.genre}</div>
-  </div>
-`).join('');
-st.innerHTML = sliderContent;
+function filterByCategory(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === cat);
+  });
+  document.getElementById('searchInput').value = '';
+  filterGames();
+}
 
-// ========== FEATURES ==========
+// ===== RENDER GAMES =====
+function renderGames(games) {
+  const gg = document.getElementById('gamesGrid');
+  gg.innerHTML = '';
+  document.getElementById('resultsCount').textContent = `Showing ${games.length} games`;
+  if (games.length === 0) {
+    gg.innerHTML = '<div class="no-results">😢 No games found! Try a different search.</div>';
+    return;
+  }
+  games.forEach(g => {
+    const el = document.createElement('div');
+    el.className = 'game-card';
+    el.innerHTML = `
+      <div class="game-thumb" style="--game-grad:${g.grad}">
+        <span class="game-thumb-icon">${g.icon}</span>
+        <div class="game-badge">${g.badge}</div>
+      </div>
+      <div class="game-info">
+        <div class="game-title">${g.title}</div>
+        <div class="game-desc">${g.desc}</div>
+        <div class="game-meta">
+          <div class="game-rating">${g.rating}</div>
+          <div class="game-age">${g.age}</div>
+        </div>
+        <span class="game-category-tag">${g.cat}</span>
+        <button class="play-btn" onclick="playGame(${g.id})">▶ Play Now!</button>
+      </div>
+    `;
+    gg.appendChild(el);
+  });
+}
+
+function filterGames() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  let results = allGames;
+  if (activeFilter !== 'All') results = results.filter(g => g.cat === activeFilter);
+  if (q) results = results.filter(g => g.title.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q) || g.cat.toLowerCase().includes(q));
+  renderGames(results);
+}
+
+// Initial render — first 60 shown (load more via search)
+renderGames(allGames.slice(0, 60));
+
+// ===== GAME PLAYER =====
+function playGame(id) {
+  const g = allGames.find(g => g.id === id);
+  if (!g) return;
+  document.getElementById('modalTitle').textContent = g.icon + ' ' + g.title;
+  document.getElementById('modalRating').textContent = g.rating;
+  document.getElementById('modalAge').textContent = g.age;
+  document.getElementById('modalDesc').textContent = g.desc;
+  document.getElementById('gameFrame').src = g.url;
+  document.getElementById('gameModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGame() {
+  document.getElementById('gameModal').classList.remove('open');
+  document.getElementById('gameFrame').src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGame(); });
+
+// ===== FEATURES =====
 const features = [
-  {icon:'🛡️',title:'100% Kid Safe',desc:'Every game is carefully reviewed to ensure a safe, positive experience for children of all ages.',grad:'linear-gradient(90deg,#00f5ff,#39ff14)'},
-  {icon:'🎓',title:'Learn While Playing',desc:'Our games are designed by educators to help kids develop creativity, logic, and problem-solving skills!',grad:'linear-gradient(90deg,#ffe600,#ff6600)'},
-  {icon:'🌍',title:'500+ Amazing Games',desc:'A huge collection of games across dozens of categories — there\'s always something new to discover!',grad:'linear-gradient(90deg,#ff2d78,#bf00ff)'},
-  {icon:'🏆',title:'Rewards & Trophies',desc:'Earn stars, unlock characters, and win trophies as you complete challenges and level up!',grad:'linear-gradient(90deg,#39ff14,#00f5ff)'},
-  {icon:'👨‍👩‍👧',title:'Parent Controls',desc:'Parents stay in charge with easy-to-use controls, screen time limits, and progress tracking tools.',grad:'linear-gradient(90deg,#bf00ff,#ff2d78)'},
-  {icon:'🔄',title:'New Games Weekly',desc:'Fresh games added every single week — so kids always have something exciting to look forward to!',grad:'linear-gradient(90deg,#ff6600,#ffe600)'},
+  {icon:'🛡️',title:'100% Kid Safe',desc:'Every game is carefully selected to ensure a safe, positive experience for children of all ages.',grad:'linear-gradient(90deg,#00f5ff,#39ff14)'},
+  {icon:'🎓',title:'Learn While Playing',desc:'Games designed to develop creativity, logic, and problem-solving skills without boring kids!',grad:'linear-gradient(90deg,#ffe600,#ff6600)'},
+  {icon:'🌍',title:'500+ Real Games',desc:'A massive collection of real, fully playable games — all free, no download, no account needed!',grad:'linear-gradient(90deg,#ff2d78,#bf00ff)'},
+  {icon:'🏆',title:'All Genres Covered',desc:'From puzzle and platformer to sports, music, IO and adventure — something for everyone!',grad:'linear-gradient(90deg,#39ff14,#00f5ff)'},
+  {icon:'👨‍👩‍👧',title:'Parent Friendly',desc:'No ads, no sign-ups, no purchases. Pure fun that parents can feel great about.',grad:'linear-gradient(90deg,#bf00ff,#ff2d78)'},
+  {icon:'🔄',title:'Always Growing',desc:'New games added regularly — kids always have something fresh and exciting to try!',grad:'linear-gradient(90deg,#ff6600,#ffe600)'},
 ];
 const fg = document.getElementById('featuresGrid');
 features.forEach(f => {
@@ -905,89 +686,37 @@ features.forEach(f => {
   fg.appendChild(el);
 });
 
-// ========== COUNTER ANIMATION ==========
+// ===== COUNTER =====
 function animateCounter(el, target, suffix='') {
   let start = 0;
-  const duration = 2000;
-  const step = (timestamp) => {
-    if (!start) start = timestamp;
-    const progress = Math.min((timestamp - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.floor(eased * target) + suffix;
-    if (progress < 1) requestAnimationFrame(step);
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / 2000, 1);
+    const e = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.floor(e * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
 }
 
-// ========== SCROLL REVEAL ==========
-const observer = new IntersectionObserver((entries) => {
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
       if (entry.target.classList.contains('stats-bar')) {
-        animateCounter(document.getElementById('stat1'), 500, '+');
+        animateCounter(document.getElementById('stat1'), TOTAL_GAMES, '+');
         animateCounter(document.getElementById('stat2'), 2, 'M+');
-        animateCounter(document.getElementById('stat3'), 20, '+');
-        animateCounter(document.getElementById('stat4'), 50, 'M+');
+        animateCounter(document.getElementById('stat3'), allCategories.length - 1, '');
+        animateCounter(document.getElementById('stat4'), 100, '%');
       }
     }
   });
 }, { threshold: 0.15 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ========== 3D TILT ==========
-document.querySelectorAll('.tilt-target').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const rx = (e.clientY - cy) / rect.height * 12;
-    const ry = (cx - e.clientX) / rect.width * 12;
-    card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${-ry}deg) translateY(-4px)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
-
-// ========== HELPER ==========
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1,3), 16);
-  const g = parseInt(hex.slice(3,5), 16);
-  const b = parseInt(hex.slice(5,7), 16);
-  return `${r},${g},${b}`;
-}
-
-// ========== PLAY BUTTON BURST ==========
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('play-btn') || e.target.classList.contains('btn-primary') || e.target.classList.contains('nav-btn')) {
-    for (let i = 0; i < 14; i++) {
-      const burst = document.createElement('div');
-      burst.style.cssText = `
-        position:fixed;left:${e.clientX}px;top:${e.clientY}px;
-        width:10px;height:10px;border-radius:50%;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        pointer-events:none;z-index:9998;
-        animation:burstParticle 0.8s ease-out forwards;
-        --dx:${(Math.random()-0.5)*200}px;
-        --dy:${(Math.random()-0.5)*200}px;
-      `;
-      document.body.appendChild(burst);
-      setTimeout(() => burst.remove(), 800);
-    }
-  }
-});
-
-// Add burst keyframe
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes burstParticle {
-    0% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; }
-  }
-`;
-document.head.appendChild(style);
+// ===== UPDATE RESULTS COUNT =====
+document.getElementById('resultsCount').textContent = `Showing 60 of ${TOTAL_GAMES} games — search to find more!`;
 </script>
 </body>
 </html>
